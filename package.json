@@ -1,0 +1,42 @@
+{
+  "name": "atlas-sales-os",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:e2e": "pnpm --filter @atlas/web test:e2e",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky",
+    "bootstrap": "node -e \"console.error('Use scripts/bootstrap.ps1 (Windows) or scripts/bootstrap.sh (Unix)')\"",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "db:migrate": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > packages/database/src/types.ts"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0",
+    "vitest": "^3.0.4"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9.15.0"
+  }
+}

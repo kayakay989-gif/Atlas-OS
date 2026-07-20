@@ -1,0 +1,25 @@
+{
+  "name": "@atlas/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx trigger.dev@latest dev",
+    "deploy": "npx trigger.dev@latest deploy",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@atlas/jobs": "workspace:*",
+    "@atlas/shared": "workspace:*",
+    "@atlas/types": "workspace:*",
+    "@trigger.dev/sdk": "^3.3.17"
+  },
+  "devDependencies": {
+    "@trigger.dev/build": "^3.3.17",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
+  }
+}

@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.pnpm-store/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+!.env.example
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+.nyc_output/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# IDE and editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# Trigger.dev
+.trigger/
+
+# Vercel
+.vercel
+
+# Playwright
+/playwright/.cache/
+
+# Turborepo
+.turbo/
+
+# Misc
+*.pem
+.cache/

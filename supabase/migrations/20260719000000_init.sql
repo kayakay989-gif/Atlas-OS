@@ -1,0 +1,1 @@
+-- Atlas Sales OS — initial migration placeholder (M1 will add auth & tenancy schema)
