@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@atlas/ui'
 import { requireOrganizationContext } from '@/lib/auth/session'
 
@@ -18,10 +19,12 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Discovery</CardTitle>
-            <CardDescription>ICP profiles and company research ship in M2.</CardDescription>
+            <CardDescription>ICP profiles and company import.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground text-sm">No companies yet.</p>
+            <Link href="/discovery" className="text-primary text-sm font-medium hover:underline">
+              Manage ICP profiles →
+            </Link>
           </CardContent>
         </Card>
 

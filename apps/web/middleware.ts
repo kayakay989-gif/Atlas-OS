@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
-const protectedPrefixes = ['/dashboard', '/settings', '/onboarding']
+const protectedPrefixes = ['/dashboard', '/settings', '/onboarding', '/discovery', '/companies']
 const authRoutes = ['/login', '/signup']
 
 export async function middleware(request: NextRequest) {

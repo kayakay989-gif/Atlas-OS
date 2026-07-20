@@ -12,6 +12,8 @@ interface DashboardSidebarProps {
 
 const navItems = [
   { href: '/dashboard', label: 'Overview' },
+  { href: '/discovery', label: 'Discovery' },
+  { href: '/companies', label: 'Companies' },
   { href: '/settings', label: 'Settings' },
   { href: '/settings/team', label: 'Team' },
 ]

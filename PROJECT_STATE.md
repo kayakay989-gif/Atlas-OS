@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M1 Complete — pending staging)
+**Updated By:** Lead Architect (M2 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,24 +9,40 @@
 
 ## Current Milestone
 
-**M1 — Auth & Multi-Tenancy** ✅ **Complete** (staging verification pending)
+**M2 — Discovery & Research Pipeline** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M2 — Discovery & Research Pipeline (awaiting approval to start)
+**Next Milestone:** M3 — Qualification & Scoring (awaiting approval to start)
 
 ---
 
-## M1 Phase Progress
+## M2 Phase Progress
 
-| Phase | Name                                      | Status      |
-| ----- | ----------------------------------------- | ----------- |
-| 1     | Database Schema, RLS & Audit Triggers     | ✅ Complete |
-| 2     | Types, Auth Constants & UI Primitives     | ✅ Complete |
-| 3     | Supabase SSR, Middleware & Auth Pages     | ✅ Complete |
-| 4     | Dashboard Shell, Onboarding & Org Context | ✅ Complete |
-| 5     | Settings, Team Management & Invitations   | ✅ Complete |
-| 6     | RBAC Helpers, Tests & Validation          | ✅ Complete |
+| Phase | Name                               | Status      |
+| ----- | ---------------------------------- | ----------- |
+| 1     | Database Schema & RLS              | ✅ Complete |
+| 2     | Types & `@atlas/discovery` Package | ✅ Complete |
+| 3     | Pipeline Services & Worker Jobs    | ✅ Complete |
+| 4     | Web UI (ICP, Companies, Profiles)  | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off     | ✅ Complete |
 
-Full plan: [docs/milestones/m1-implementation-plan.md](./docs/milestones/m1-implementation-plan.md)
+Full plan: [docs/milestones/m2-implementation-plan.md](./docs/milestones/m2-implementation-plan.md)
+
+---
+
+## M2 Deliverables (Verified)
+
+- [x] Supabase migration: `icp_profiles`, `companies`, `company_crawls`, `research_reports`, `contacts`, `pipeline_jobs`, RLS
+- [x] `@atlas/discovery` package: CSV provider, crawl service, mock research, pipeline orchestration
+- [x] Discovery types and Zod schemas in `@atlas/types`
+- [x] Worker jobs for CSV discovery and company pipeline (`apps/worker`)
+- [x] Web server actions with async pipeline via `after()`
+- [x] UI: `/discovery`, ICP create/detail, CSV import, `/companies`, company profile
+- [x] Feature flag: `FF_DISCOVERY_PIPELINE=true`
+- [x] Unit tests for discovery types, CSV parsing, research schema
+- [x] `pnpm validate` passes
+- [ ] Real OpenAI research provider (mock used for M2)
+- [ ] E2E tests for discovery flow
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -71,11 +87,12 @@ Full plan: [docs/milestones/m1-implementation-plan.md](./docs/milestones/m1-impl
 | ------------------ | ---------------------------------------------------------------------- |
 | `@atlas/config`    | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
 | `@atlas/database`  | Supabase client factory + typed schema                                 |
+| `@atlas/discovery` | CSV discovery, crawl, research pipeline orchestration                  |
 | `@atlas/events`    | Domain event catalog                                                   |
 | `@atlas/jobs`      | Job abstraction (Trigger.dev isolated in worker)                       |
 | `@atlas/providers` | Pluggable provider interfaces                                          |
 | `@atlas/shared`    | Errors, constants, structured logger, RBAC helpers                     |
-| `@atlas/types`     | Zod schemas + shared types (auth, jobs)                                |
+| `@atlas/types`     | Zod schemas + shared types (auth, discovery, jobs)                     |
 | `@atlas/ui`        | shadcn/ui components + design tokens                                   |
 | `@atlas/utils`     | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
 
@@ -91,6 +108,8 @@ pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
 ```
 
+Set `FF_DISCOVERY_PIPELINE=true` in `.env.local` to enable discovery routes.
+
 Last validated: **2026-07-20** — all green.
 
 ---
@@ -100,6 +119,7 @@ Last validated: **2026-07-20** — all green.
 | Issue                                                | Severity | Notes                         |
 | ---------------------------------------------------- | -------- | ----------------------------- |
 | RLS integration tests not in CI yet                  | Low      | Run locally with Supabase CLI |
+| Research uses mock provider (not OpenAI)             | Low      | Wire real provider in M2+     |
 | `next build` ESLint plugin warning                   | Low      | FlatCompat + monorepo         |
 | Turbo warnings: database/worker build has no outputs | Low      | Typecheck-only build scripts  |
 | Trigger.dev project ID placeholder                   | Low      | Set before worker dev         |
@@ -111,6 +131,8 @@ Last validated: **2026-07-20** — all green.
 | Item                              | Resolve In                  |
 | --------------------------------- | --------------------------- |
 | RLS integration test suite in CI  | M1 follow-up                |
+| OpenAI research provider          | M2 follow-up                |
+| Firecrawl / Playwright providers  | M2+                         |
 | Per-org feature flags UI          | M2+ (schema ready)          |
 | Native Next.js flat ESLint config | When Next.js docs stabilize |
 
@@ -119,9 +141,9 @@ Last validated: **2026-07-20** — all green.
 ## Next Step
 
 1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
-2. Sign up → create org → invite teammate → accept invite
+2. Set `FF_DISCOVERY_PIPELINE=true`, sign in, create ICP → import CSV → view company research
 3. Connect Vercel + Supabase staging for deployment verification
-4. Approve **M2 — Discovery & Research Pipeline** to begin
+4. Approve **M3 — Qualification & Scoring** to begin
 
 ---
 

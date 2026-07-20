@@ -12,6 +12,8 @@
     "build": "tsc --noEmit"
   },
   "dependencies": {
+    "@atlas/database": "workspace:*",
+    "@atlas/discovery": "workspace:*",
     "@atlas/jobs": "workspace:*",
     "@atlas/shared": "workspace:*",
     "@atlas/types": "workspace:*",

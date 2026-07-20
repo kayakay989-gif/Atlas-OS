@@ -8,7 +8,7 @@ Atlas Sales OS is not a CRM. It is an autonomous outbound sales platform designe
 
 ## Status
 
-**Milestone 1 complete** — auth, organizations, RBAC, and dashboard shell ready. M2 (Discovery & Research) is next.
+**Milestone 2 complete** — ICP profiles, CSV discovery, crawl, research reports, and company profiles. M3 (Qualification & Scoring) is next.
 
 See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md).
 

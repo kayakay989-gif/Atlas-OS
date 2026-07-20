@@ -19,10 +19,12 @@ const nextConfig: NextConfig = {
     '@atlas/utils',
     '@atlas/database',
     '@atlas/types',
+    '@atlas/config',
+    '@atlas/discovery',
   ],
   outputFileTracingRoot: path.join(__dirname, '../..'),
   headers() {
-    return [{ source: '/(.*)', headers: securityHeaders }]
+    return Promise.resolve([{ source: '/(.*)', headers: securityHeaders }])
   },
 }
 

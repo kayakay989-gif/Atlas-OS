@@ -52,6 +52,9 @@ importers:
       '@atlas/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@atlas/discovery':
+        specifier: workspace:*
+        version: link:../../packages/discovery
       '@atlas/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -131,6 +134,12 @@ importers:
 
   apps/worker:
     dependencies:
+      '@atlas/database':
+        specifier: workspace:*
+        version: link:../../packages/database
+      '@atlas/discovery':
+        specifier: workspace:*
+        version: link:../../packages/discovery
       '@atlas/jobs':
         specifier: workspace:*
         version: link:../../packages/jobs
@@ -172,6 +181,31 @@ importers:
 
   packages/database:
     dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.49.1
+        version: 2.110.7
+    devDependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.4
+        version: 3.2.7(@types/node@22.20.1)(jiti@2.6.1)(jsdom@26.1.0)(yaml@2.9.0)
+
+  packages/discovery:
+    dependencies:
+      '@atlas/database':
+        specifier: workspace:*
+        version: link:../database
+      '@atlas/providers':
+        specifier: workspace:*
+        version: link:../providers
+      '@atlas/types':
+        specifier: workspace:*
+        version: link:../types
+      '@atlas/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@supabase/supabase-js':
         specifier: ^2.49.1
         version: 2.110.7
