@@ -190,6 +190,7 @@ Full plan: [docs/milestones/m3-implementation-plan.md](./docs/milestones/m3-impl
 | `@atlas/qualification`  | Lead scoring after research                                            |
 | `@atlas/deliverability` | DNS validation, warm-up, health scoring, pre-send checks               |
 | `@atlas/campaigns`      | Campaign builder, send scheduler, mock dispatch, reply handling        |
+| `@atlas/meetings`       | Availability, booking links, public booking, pre-meeting briefs        |
 | `@atlas/outreach`       | Email generation, sequences, quality checks, draft management          |
 | `@atlas/events`         | Domain event catalog                                                   |
 | `@atlas/jobs`           | Job abstraction (Trigger.dev isolated in worker)                       |
