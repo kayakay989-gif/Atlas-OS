@@ -11,6 +11,7 @@ const protectedPrefixes = [
   '/outreach',
   '/sequences',
   '/deliverability',
+  '/campaigns',
 ]
 const authRoutes = ['/login', '/signup']
 

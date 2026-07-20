@@ -9,9 +9,38 @@
 
 ## Current Milestone
 
-**M4 — Email Infrastructure** ✅ **Complete** (staging verification pending)
+**M5 — Campaigns & Replies** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M5 — Campaigns & Replies
+**Next Milestone:** M6 — Meeting Booking
+
+---
+
+## M5 Phase Progress
+
+| Phase | Name                                               | Status      |
+| ----- | -------------------------------------------------- | ----------- |
+| 1     | Database Schema & RLS                              | ✅ Complete |
+| 2     | Types & `@atlas/campaigns` Package                 | ✅ Complete |
+| 3     | Send Scheduler, Pre-Send Integration & Worker Jobs | ✅ Complete |
+| 4     | Web UI (Campaign Builder, Dashboard, Analytics)    | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off                     | ✅ Complete |
+
+Full plan: [docs/milestones/m5-implementation-plan.md](./docs/milestones/m5-implementation-plan.md)
+
+---
+
+## M5 Deliverables (Verified)
+
+- [x] Supabase migration: `campaigns`, `campaign_mailboxes`, `campaign_contacts`, `send_records`, `inbound_messages`, RLS, audit
+- [x] `@atlas/campaigns` — create/launch/pause, mailbox rotation, send scheduler, mock send with pre-send checks
+- [x] Reply classifier, bounce/unsubscribe handlers, campaign auto-pause on low mailbox health
+- [x] Worker job: `campaign-send`
+- [x] UI: `/campaigns`, `/campaigns/new`, `/campaigns/[id]`
+- [x] Feature flags: `FF_CAMPAIGN_EXECUTION=true` + `FF_EMAIL_SENDING=true`
+- [x] Unit tests for rotation, reply classification, send window
+- [x] `pnpm validate` passes
+- [ ] Real email dispatch and inbox polling
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -153,9 +182,9 @@ pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
 ```
 
-Set `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, and `FF_EMAIL_SENDING=true` in `.env.local`.
+Set `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, `FF_EMAIL_SENDING=true`, and `FF_CAMPAIGN_EXECUTION=true` in `.env.local`.
 
-Last validated: **2026-07-20** — all green (M4).
+Last validated: **2026-07-20** — all green (M5).
 
 ---
 
@@ -186,9 +215,9 @@ Last validated: **2026-07-20** — all green (M4).
 ## Next Step
 
 1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
-2. Enable `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, and `FF_EMAIL_SENDING=true`
-3. Configure domains/mailboxes at `/deliverability` → approve outreach drafts at `/outreach`
-4. Begin **M5 — Campaigns & Replies** (campaign builder, send scheduler, reply detection)
+2. Enable all pipeline flags through `FF_CAMPAIGN_EXECUTION=true`
+3. Flow: discovery → qualification → approve drafts → configure deliverability → launch campaign at `/campaigns`
+4. Begin **M6 — Meeting Booking** when approved
 
 ---
 

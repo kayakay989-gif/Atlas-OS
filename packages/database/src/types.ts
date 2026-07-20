@@ -11,6 +11,12 @@ export type MailboxProvider = 'google_workspace' | 'smtp'
 export type MailboxStatus = 'warming' | 'active' | 'paused' | 'disabled'
 export type SuppressionReason =
   'hard_bounce' | 'soft_bounce' | 'unsubscribe' | 'manual' | 'complaint'
+export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed' | 'cancelled'
+export type CampaignContactStatus =
+  'pending' | 'active' | 'replied' | 'bounced' | 'unsubscribed' | 'completed' | 'skipped'
+export type SendRecordStatus = 'queued' | 'sent' | 'failed' | 'skipped'
+export type ReplyIntent =
+  'positive' | 'negative' | 'neutral' | 'out_of_office' | 'unsubscribe' | 'unknown'
 
 export type Database = {
   public: {
@@ -813,6 +819,237 @@ export type Database = {
         }
         Relationships: []
       }
+      campaigns: {
+        Row: {
+          id: string
+          organization_id: string
+          name: string
+          sequence_id: string
+          status: CampaignStatus
+          timezone: string
+          send_window_start: string
+          send_window_end: string
+          sends_count: number
+          replies_count: number
+          bounces_count: number
+          started_at: string | null
+          paused_at: string | null
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          name: string
+          sequence_id: string
+          status?: CampaignStatus
+          timezone?: string
+          send_window_start?: string
+          send_window_end?: string
+          sends_count?: number
+          replies_count?: number
+          bounces_count?: number
+          started_at?: string | null
+          paused_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          name?: string
+          sequence_id?: string
+          status?: CampaignStatus
+          timezone?: string
+          send_window_start?: string
+          send_window_end?: string
+          sends_count?: number
+          replies_count?: number
+          bounces_count?: number
+          started_at?: string | null
+          paused_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      campaign_mailboxes: {
+        Row: {
+          id: string
+          organization_id: string
+          campaign_id: string
+          mailbox_id: string
+          rotation_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          campaign_id: string
+          mailbox_id: string
+          rotation_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          campaign_id?: string
+          mailbox_id?: string
+          rotation_order?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+      campaign_contacts: {
+        Row: {
+          id: string
+          organization_id: string
+          campaign_id: string
+          contact_id: string
+          company_id: string
+          status: CampaignContactStatus
+          current_step_order: number
+          next_send_at: string | null
+          last_sent_at: string | null
+          replied_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          campaign_id: string
+          contact_id: string
+          company_id: string
+          status?: CampaignContactStatus
+          current_step_order?: number
+          next_send_at?: string | null
+          last_sent_at?: string | null
+          replied_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          campaign_id?: string
+          contact_id?: string
+          company_id?: string
+          status?: CampaignContactStatus
+          current_step_order?: number
+          next_send_at?: string | null
+          last_sent_at?: string | null
+          replied_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      send_records: {
+        Row: {
+          id: string
+          organization_id: string
+          campaign_id: string
+          campaign_contact_id: string
+          email_draft_id: string | null
+          mailbox_id: string | null
+          contact_id: string
+          step_order: number
+          recipient_email: string
+          subject: string
+          body: string
+          status: SendRecordStatus
+          pre_send_failures: Json
+          external_message_id: string | null
+          sent_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          campaign_id: string
+          campaign_contact_id: string
+          email_draft_id?: string | null
+          mailbox_id?: string | null
+          contact_id: string
+          step_order: number
+          recipient_email: string
+          subject: string
+          body: string
+          status?: SendRecordStatus
+          pre_send_failures?: Json
+          external_message_id?: string | null
+          sent_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          campaign_id?: string
+          campaign_contact_id?: string
+          email_draft_id?: string | null
+          mailbox_id?: string | null
+          contact_id?: string
+          step_order?: number
+          recipient_email?: string
+          subject?: string
+          body?: string
+          status?: SendRecordStatus
+          pre_send_failures?: Json
+          external_message_id?: string | null
+          sent_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      inbound_messages: {
+        Row: {
+          id: string
+          organization_id: string
+          campaign_id: string | null
+          campaign_contact_id: string | null
+          send_record_id: string | null
+          from_email: string
+          subject: string | null
+          body_preview: string
+          reply_intent: ReplyIntent
+          received_at: string
+          classified_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          campaign_id?: string | null
+          campaign_contact_id?: string | null
+          send_record_id?: string | null
+          from_email: string
+          subject?: string | null
+          body_preview: string
+          reply_intent?: ReplyIntent
+          received_at?: string
+          classified_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          campaign_id?: string | null
+          campaign_contact_id?: string | null
+          send_record_id?: string | null
+          from_email?: string
+          subject?: string | null
+          body_preview?: string
+          reply_intent?: ReplyIntent
+          received_at?: string
+          classified_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -859,6 +1096,10 @@ export type Database = {
       mailbox_provider: MailboxProvider
       mailbox_status: MailboxStatus
       suppression_reason: SuppressionReason
+      campaign_status: CampaignStatus
+      campaign_contact_status: CampaignContactStatus
+      send_record_status: SendRecordStatus
+      reply_intent: ReplyIntent
     }
     CompositeTypes: {
       [_ in never]: never
@@ -892,3 +1133,8 @@ export type EmailDraft = Tables<'email_drafts'>
 export type OutreachDomain = Tables<'outreach_domains'>
 export type Mailbox = Tables<'mailboxes'>
 export type SuppressionEntry = Tables<'suppression_entries'>
+export type Campaign = Tables<'campaigns'>
+export type CampaignMailbox = Tables<'campaign_mailboxes'>
+export type CampaignContact = Tables<'campaign_contacts'>
+export type SendRecord = Tables<'send_records'>
+export type InboundMessage = Tables<'inbound_messages'>

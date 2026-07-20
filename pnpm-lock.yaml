@@ -46,6 +46,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@atlas/campaigns':
+        specifier: workspace:*
+        version: link:../../packages/campaigns
       '@atlas/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -143,6 +146,9 @@ importers:
 
   apps/worker:
     dependencies:
+      '@atlas/campaigns':
+        specifier: workspace:*
+        version: link:../../packages/campaigns
       '@atlas/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -177,6 +183,28 @@ importers:
       '@trigger.dev/build':
         specifier: ^3.3.17
         version: 3.3.17(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.4
+        version: 3.2.7(@types/node@22.20.1)(jiti@2.6.1)(jsdom@26.1.0)(yaml@2.9.0)
+
+  packages/campaigns:
+    dependencies:
+      '@atlas/database':
+        specifier: workspace:*
+        version: link:../database
+      '@atlas/deliverability':
+        specifier: workspace:*
+        version: link:../deliverability
+      '@atlas/types':
+        specifier: workspace:*
+        version: link:../types
+      '@supabase/supabase-js':
+        specifier: ^2.49.1
+        version: 2.110.7
+    devDependencies:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3

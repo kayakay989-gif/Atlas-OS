@@ -164,6 +164,7 @@ export async function addSuppressionEntryAction(
   return { success: 'Address added to suppression list' }
 }
 
-export function getDomainDnsInstructions(domain: string, dkimSelector: string) {
+export async function getDomainDnsInstructions(domain: string, dkimSelector: string) {
+  await Promise.resolve()
   return getDnsSetupInstructions(domain, dkimSelector)
 }

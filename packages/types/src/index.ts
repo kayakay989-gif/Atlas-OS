@@ -74,6 +74,22 @@ export {
   type SuppressionReason,
 } from './deliverability'
 export {
+  campaignContactStatusSchema,
+  campaignReplyCheckJobPayloadSchema,
+  campaignSendJobPayloadSchema,
+  campaignStatusSchema,
+  createCampaignSchema,
+  replyIntentSchema,
+  sendRecordStatusSchema,
+  type CampaignContactStatus,
+  type CampaignReplyCheckJobPayload,
+  type CampaignSendJobPayload,
+  type CampaignStatus,
+  type CreateCampaignInput,
+  type ReplyIntent,
+  type SendRecordStatus,
+} from './campaign'
+export {
   createOrganizationSchema,
   inviteMemberSchema,
   inviteRoleSchema,

@@ -8,6 +8,7 @@ export const FEATURE_FLAG_NAMES = {
   discoveryPipeline: 'discoveryPipeline',
   outreachGeneration: 'outreachGeneration',
   emailSending: 'emailSending',
+  campaignExecution: 'campaignExecution',
   meetingBooking: 'meetingBooking',
   crmModule: 'crmModule',
   aiAgents: 'aiAgents',
@@ -22,6 +23,7 @@ export const FEATURE_FLAG_DEFAULTS: FeatureFlags = {
   discoveryPipeline: false,
   outreachGeneration: false,
   emailSending: false,
+  campaignExecution: false,
   meetingBooking: false,
   crmModule: false,
   aiAgents: false,
@@ -32,6 +34,7 @@ export const FEATURE_FLAG_ENV_KEYS: Record<FeatureFlagName, string> = {
   discoveryPipeline: 'FF_DISCOVERY_PIPELINE',
   outreachGeneration: 'FF_OUTREACH_GENERATION',
   emailSending: 'FF_EMAIL_SENDING',
+  campaignExecution: 'FF_CAMPAIGN_EXECUTION',
   meetingBooking: 'FF_MEETING_BOOKING',
   crmModule: 'FF_CRM_MODULE',
   aiAgents: 'FF_AI_AGENTS',
@@ -89,9 +92,6 @@ export function getFeatureFlags(context: FeatureFlagContext = {}): FeatureFlags 
 }
 
 /** Check a single flag (convenience for module boundaries). */
-export function isFeatureEnabled(
-  flag: FeatureFlagName,
-  context: FeatureFlagContext = {},
-): boolean {
+export function isFeatureEnabled(flag: FeatureFlagName, context: FeatureFlagContext = {}): boolean {
   return getFeatureFlags(context)[flag]
 }
