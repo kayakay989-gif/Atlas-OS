@@ -13,9 +13,15 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@atlas/shared', '@atlas/ui', '@atlas/utils'],
+  transpilePackages: [
+    '@atlas/shared',
+    '@atlas/ui',
+    '@atlas/utils',
+    '@atlas/database',
+    '@atlas/types',
+  ],
   outputFileTracingRoot: path.join(__dirname, '../..'),
-  async headers() {
+  headers() {
     return [{ source: '/(.*)', headers: securityHeaders }]
   },
 }

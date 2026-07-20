@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Atlas Sales OS',
-  description: 'Engineering foundation — Atlas Sales OS',
+  description: 'AI-powered outbound sales platform for Atlas Solutions',
 }
 
 export default function RootLayout({
@@ -24,9 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        {children}
-      </body>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>{children}</body>
     </html>
   )
 }

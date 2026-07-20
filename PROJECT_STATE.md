@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M0 Complete)
+**Updated By:** Lead Architect (M1 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,33 +9,42 @@
 
 ## Current Milestone
 
-**M0 — Project Foundation** ✅ **Complete**
+**M1 — Auth & Multi-Tenancy** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M1 — Auth & Multi-Tenancy (awaiting approval to start)
+**Next Milestone:** M2 — Discovery & Research Pipeline (awaiting approval to start)
 
 ---
 
-## M0 Phase Progress
+## M1 Phase Progress
 
-| Phase | Name | Status |
-|-------|------|--------|
-| 1 | Monorepo Governance & Workspace Foundation | ✅ Complete |
-| 2 | Package Architecture & Dependency Boundaries | ✅ Complete |
-| 3 | TypeScript Strict Foundation | ✅ Complete |
-| 4 | ESLint & Prettier | ✅ Complete |
-| 5 | Core Infrastructure Packages | ✅ Complete |
-| 6 | apps/web Shell | ✅ Complete |
-| 7 | Tailwind & shadcn/ui (@atlas/ui) | ✅ Complete |
-| 8 | Supabase Local Configuration | ✅ Complete |
-| 9 | Worker & Job Abstraction | ✅ Complete |
-| 10 | Logging & Error Handling | ✅ Complete |
-| 11 | Testing Infrastructure | ✅ Complete |
-| 12 | Git Hooks & Commit Conventions | ✅ Complete |
-| 13 | GitHub Actions CI + Security Scanning | ✅ Complete |
-| 14 | Vercel Deployment Configuration | ✅ Complete |
-| 15 | Local Dev Bootstrap & M0 Sign-Off | ✅ Complete |
+| Phase | Name                                      | Status      |
+| ----- | ----------------------------------------- | ----------- |
+| 1     | Database Schema, RLS & Audit Triggers     | ✅ Complete |
+| 2     | Types, Auth Constants & UI Primitives     | ✅ Complete |
+| 3     | Supabase SSR, Middleware & Auth Pages     | ✅ Complete |
+| 4     | Dashboard Shell, Onboarding & Org Context | ✅ Complete |
+| 5     | Settings, Team Management & Invitations   | ✅ Complete |
+| 6     | RBAC Helpers, Tests & Validation          | ✅ Complete |
 
-Full plan: [docs/milestones/m0-implementation-plan.md](./docs/milestones/m0-implementation-plan.md)
+Full plan: [docs/milestones/m1-implementation-plan.md](./docs/milestones/m1-implementation-plan.md)
+
+---
+
+## M1 Deliverables (Verified)
+
+- [x] Supabase migration: profiles, organizations, memberships, invitations, audit_logs, RLS
+- [x] Auth pages: login, signup, sign out, auth callback
+- [x] Organization onboarding flow
+- [x] Dashboard shell with sidebar navigation
+- [x] Organization settings and team management
+- [x] Invitation create, revoke, and accept (`/invite/[token]`)
+- [x] Audit log triggers for org, membership, and invitation changes
+- [x] RBAC helpers (`canManageMembers`, `canDeleteOrganization`)
+- [x] Unit tests for auth schemas and RBAC
+- [x] Playwright auth shell e2e tests
+- [x] `pnpm validate` passes
+- [ ] RLS integration tests in CI (requires local Supabase in dev)
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -53,25 +62,22 @@ Full plan: [docs/milestones/m0-implementation-plan.md](./docs/milestones/m0-impl
 - [x] CI with dependency audit + Gitleaks
 - [x] Vercel config + security headers
 - [x] Bootstrap scripts (`scripts/bootstrap.ps1`, `scripts/bootstrap.sh`)
-- [x] `pnpm validate` passes (lint, typecheck, test, build)
-
-**No business features** — auth, CRM, AI agents, email, crawling, outreach are M1+.
 
 ---
 
 ## Package Layout
 
-| Package | Purpose |
-|---------|---------|
-| `@atlas/config` | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
-| `@atlas/database` | Supabase client factory + generated types |
-| `@atlas/events` | Domain event catalog |
-| `@atlas/jobs` | Job abstraction (Trigger.dev isolated in worker) |
-| `@atlas/providers` | Pluggable provider interfaces |
-| `@atlas/shared` | Errors, constants, structured logger |
-| `@atlas/types` | Zod schemas + shared types |
-| `@atlas/ui` | shadcn/ui components + design tokens |
-| `@atlas/utils` | Pure utilities (`cn`, `safeJsonParse`, `assertNever`) |
+| Package            | Purpose                                                                |
+| ------------------ | ---------------------------------------------------------------------- |
+| `@atlas/config`    | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
+| `@atlas/database`  | Supabase client factory + typed schema                                 |
+| `@atlas/events`    | Domain event catalog                                                   |
+| `@atlas/jobs`      | Job abstraction (Trigger.dev isolated in worker)                       |
+| `@atlas/providers` | Pluggable provider interfaces                                          |
+| `@atlas/shared`    | Errors, constants, structured logger, RBAC helpers                     |
+| `@atlas/types`     | Zod schemas + shared types (auth, jobs)                                |
+| `@atlas/ui`        | shadcn/ui components + design tokens                                   |
+| `@atlas/utils`     | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
 
 ---
 
@@ -79,9 +85,10 @@ Full plan: [docs/milestones/m0-implementation-plan.md](./docs/milestones/m0-impl
 
 ```bash
 pnpm validate          # lint + typecheck + test + build
+pnpm supabase:start    # Local Supabase for auth testing
+pnpm db:reset          # Apply migrations
+pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
-./scripts/bootstrap.ps1   # Windows onboarding
-./scripts/bootstrap.sh    # Unix onboarding
 ```
 
 Last validated: **2026-07-20** — all green.
@@ -90,38 +97,37 @@ Last validated: **2026-07-20** — all green.
 
 ## Known Issues
 
-| Issue | Severity | Notes |
-|-------|----------|-------|
-| `next build` ESLint plugin warning | Low | FlatCompat + monorepo; turbo lint uses Next rules |
-| Turbo warnings: database/worker build has no outputs | Low | Typecheck-only build scripts |
-| Husky requires git init | Low | `prepare` warns if not a git repo |
-| Trigger.dev project ID placeholder | Low | Set in dashboard before worker dev |
-| Gitleaks in CI needs git history | Low | Works on GitHub; local CI mirror may differ |
+| Issue                                                | Severity | Notes                         |
+| ---------------------------------------------------- | -------- | ----------------------------- |
+| RLS integration tests not in CI yet                  | Low      | Run locally with Supabase CLI |
+| `next build` ESLint plugin warning                   | Low      | FlatCompat + monorepo         |
+| Turbo warnings: database/worker build has no outputs | Low      | Typecheck-only build scripts  |
+| Trigger.dev project ID placeholder                   | Low      | Set before worker dev         |
 
 ---
 
 ## Technical Debt
 
-| Item | Resolve In |
-|------|------------|
-| Per-org feature flags from database | M1 |
-| Supabase business schema | M1 |
-| Replace console logger backend if volume grows | M2+ |
+| Item                              | Resolve In                  |
+| --------------------------------- | --------------------------- |
+| RLS integration test suite in CI  | M1 follow-up                |
+| Per-org feature flags UI          | M2+ (schema ready)          |
 | Native Next.js flat ESLint config | When Next.js docs stabilize |
 
 ---
 
 ## Next Step
 
-**M1 — Auth & Multi-Tenancy** — organizations, users, RLS, Supabase auth integration.
-
-Do not start M1 until explicitly approved.
+1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
+2. Sign up → create org → invite teammate → accept invite
+3. Connect Vercel + Supabase staging for deployment verification
+4. Approve **M2 — Discovery & Research Pipeline** to begin
 
 ---
 
 ## Philosophy (Quick Reference)
 
-1. Product first · 2. AI-first · 3. Own the stack · 4. Multi-tenant always  
-5. Event-driven · 6. Vendor abstraction · 7. Deliverability as product  
-8. Pluggable providers · 9. Agent memory · 10. Quality over speed  
-11. **PROJECT_STATE is source of truth** · 12. **ADR for major changes**
+1. Product first · 2. AI-first · 3. Own the stack · 4. Multi-tenant always
+2. Event-driven · 6. Vendor abstraction · 7. Deliverability as product
+3. Pluggable providers · 9. Agent memory · 10. Quality over speed
+4. **PROJECT_STATE is source of truth** · 12. **ADR for major changes**

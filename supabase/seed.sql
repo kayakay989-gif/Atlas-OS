@@ -1,1 +1,2 @@
--- Development seed data (populated in M1)
+-- Development seed data for local Supabase (M1+)
+-- Auth users are created via signup flow; no seed users by default.

@@ -8,7 +8,7 @@ Atlas Sales OS is not a CRM. It is an autonomous outbound sales platform designe
 
 ## Status
 
-**Milestone 0 complete** — engineering foundation ready. M1 (Auth & Tenancy) is next.
+**Milestone 1 complete** — auth, organizations, RBAC, and dashboard shell ready. M2 (Discovery & Research) is next.
 
 See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md).
 
@@ -16,40 +16,40 @@ See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md
 
 ## Quick Links
 
-| Document | Purpose |
-|----------|---------|
-| [Project State](./PROJECT_STATE.md) | Current milestone, progress, decisions, debt |
-| [Product Charter](./docs/product/charter.md) | Vision, principles, scope, and success criteria |
-| [Roadmap](./docs/product/roadmap.md) | Long-term product direction |
-| [Milestone Plan](./docs/milestones/milestone-plan.md) | Phased delivery plan with dependencies |
-| [Architecture Overview](./docs/architecture/overview.md) | System design and component boundaries |
-| [Folder Structure](./docs/architecture/folder-structure.md) | Repository layout plan |
-| [ADRs](./docs/architecture/adrs/README.md) | Architecture Decision Records |
-| [Development Workflow](./docs/development/workflow.md) | How we build and ship |
-| [Coding Standards](./docs/development/coding-standards.md) | Code quality and conventions |
-| [Git Strategy](./docs/development/git-strategy.md) | Branching, commits, and releases |
-| [Testing Strategy](./docs/development/testing-strategy.md) | Test pyramid and coverage expectations |
-| [Compliance Overview](./docs/compliance/overview.md) | Regulatory and responsible outreach framework |
-| [Security Overview](./docs/security/overview.md) | Security principles and threat model |
-| [Deployment](./docs/operations/deployment.md) | Environments and release process |
+| Document                                                    | Purpose                                         |
+| ----------------------------------------------------------- | ----------------------------------------------- |
+| [Project State](./PROJECT_STATE.md)                         | Current milestone, progress, decisions, debt    |
+| [Product Charter](./docs/product/charter.md)                | Vision, principles, scope, and success criteria |
+| [Roadmap](./docs/product/roadmap.md)                        | Long-term product direction                     |
+| [Milestone Plan](./docs/milestones/milestone-plan.md)       | Phased delivery plan with dependencies          |
+| [Architecture Overview](./docs/architecture/overview.md)    | System design and component boundaries          |
+| [Folder Structure](./docs/architecture/folder-structure.md) | Repository layout plan                          |
+| [ADRs](./docs/architecture/adrs/README.md)                  | Architecture Decision Records                   |
+| [Development Workflow](./docs/development/workflow.md)      | How we build and ship                           |
+| [Coding Standards](./docs/development/coding-standards.md)  | Code quality and conventions                    |
+| [Git Strategy](./docs/development/git-strategy.md)          | Branching, commits, and releases                |
+| [Testing Strategy](./docs/development/testing-strategy.md)  | Test pyramid and coverage expectations          |
+| [Compliance Overview](./docs/compliance/overview.md)        | Regulatory and responsible outreach framework   |
+| [Security Overview](./docs/security/overview.md)            | Security principles and threat model            |
+| [Deployment](./docs/operations/deployment.md)               | Environments and release process                |
 
 ---
 
 ## Tech Stack (Approved)
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Next.js, React, TypeScript, Tailwind CSS, shadcn/ui |
-| Backend | Supabase (PostgreSQL, Auth, Edge Functions, Storage) |
-| Hosting | Vercel |
-| AI | OpenAI, Gemini |
-| Browser Automation | Playwright |
-| Web Extraction | Firecrawl (when appropriate) |
-| Job Orchestration | Trigger.dev (abstracted via `@atlas/jobs`) |
-| Email | Google Workspace, SMTP, Resend |
-| Validation | Zod |
-| State | Zustand |
-| Forms | React Hook Form |
+| Layer              | Technology                                           |
+| ------------------ | ---------------------------------------------------- |
+| Frontend           | Next.js, React, TypeScript, Tailwind CSS, shadcn/ui  |
+| Backend            | Supabase (PostgreSQL, Auth, Edge Functions, Storage) |
+| Hosting            | Vercel                                               |
+| AI                 | OpenAI, Gemini                                       |
+| Browser Automation | Playwright                                           |
+| Web Extraction     | Firecrawl (when appropriate)                         |
+| Job Orchestration  | Trigger.dev (abstracted via `@atlas/jobs`)           |
+| Email              | Google Workspace, SMTP, Resend                       |
+| Validation         | Zod                                                  |
+| State              | Zustand                                              |
+| Forms              | React Hook Form                                      |
 
 ---
 
