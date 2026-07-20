@@ -12,6 +12,7 @@ import {
   sendProposal,
   updateProposalContent,
 } from '@atlas/conversion'
+import { recordContentEdit } from '@atlas/learning'
 import { createProposalSchema, reviewProposalSchema, updateProposalSchema } from '@atlas/types'
 import { after } from 'next/server'
 import { revalidatePath } from 'next/cache'
@@ -98,7 +99,7 @@ export async function updateProposalAction(
   _prev: ConversionActionState,
   formData: FormData,
 ): Promise<ConversionActionState> {
-  const { activeOrganization, activeRole } = await requireOrganizationContext()
+  const { activeOrganization, activeRole, user } = await requireOrganizationContext()
   assertConversionEnabled(activeOrganization.id)
 
   if (activeRole === 'member') {
@@ -119,11 +120,42 @@ export async function updateProposalAction(
   const supabase = await createClient()
 
   try {
+    const { data: existing } = await supabase
+      .from('proposals')
+      .select('title, content')
+      .eq('id', proposalId)
+      .eq('organization_id', activeOrganization.id)
+      .single()
+
+    if (!existing) {
+      return { error: 'Proposal not found' }
+    }
+
     await updateProposalContent(supabase, {
       organizationId: activeOrganization.id,
       proposalId,
       ...parsed.data,
     })
+
+    const contentChanged =
+      existing.title !== parsed.data.title || existing.content !== parsed.data.content
+
+    if (
+      contentChanged &&
+      isFeatureEnabled('learningOptimization', { organizationId: activeOrganization.id })
+    ) {
+      await recordContentEdit(supabase, {
+        organizationId: activeOrganization.id,
+        contentType: 'proposal',
+        sourceId: proposalId,
+        originalSubject: existing.title,
+        originalBody: existing.content,
+        editedSubject: parsed.data.title,
+        editedBody: parsed.data.content,
+        editorId: user.id,
+        promptVersion: 'v1',
+      })
+    }
 
     revalidatePath('/proposals')
     revalidatePath(`/proposals/${proposalId}`)

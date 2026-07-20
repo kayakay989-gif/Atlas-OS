@@ -9,6 +9,7 @@ export interface EmailGenerationInput {
   subjectTemplate: string
   bodyTemplate: string
   bookingLinkUrl?: string
+  styleHints?: string[]
 }
 
 const PROMPT_VERSION = 'v1'
@@ -39,6 +40,10 @@ export function generateEmailFromTemplate(input: EmailGenerationInput): Generate
     body += `\n\nHappy to share a concise idea tailored to ${input.companyName}.`
   } else {
     body += `\n\nIf timing is off, no worries — I'll close the loop here.`
+  }
+
+  if (input.styleHints?.length) {
+    body += `\n\n---\nStyle notes from recent approved edits:\n${input.styleHints.map((hint) => `- ${hint}`).join('\n')}`
   }
 
   return generatedEmailSchema.parse({ subject, body })

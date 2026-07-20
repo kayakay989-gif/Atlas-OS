@@ -15,6 +15,7 @@ const protectedPrefixes = [
   '/meetings',
   '/proposals',
   '/invoices',
+  '/analytics',
 ]
 const authRoutes = ['/login', '/signup']
 

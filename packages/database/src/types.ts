@@ -23,6 +23,11 @@ export type MeetingStatus = 'scheduled' | 'confirmed' | 'cancelled' | 'completed
 export type ProposalStatus = 'draft' | 'pending_review' | 'approved' | 'sent' | 'rejected'
 export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'cancelled'
 export type OnboardingStatus = 'pending' | 'in_progress' | 'completed'
+export type ExperimentStatus = 'draft' | 'running' | 'completed' | 'cancelled'
+export type ExperimentType = 'subject_line' | 'copy_variant' | 'send_time'
+export type RecommendationType = 'icp_refinement' | 'copy_pattern' | 'send_time'
+export type RecommendationStatus = 'pending' | 'accepted' | 'dismissed'
+export type ContentFeedbackType = 'email_draft' | 'proposal'
 
 export type Database = {
   public: {
@@ -1410,6 +1415,177 @@ export type Database = {
         }
         Relationships: []
       }
+      ab_experiments: {
+        Row: {
+          id: string
+          organization_id: string
+          campaign_id: string | null
+          name: string
+          experiment_type: ExperimentType
+          status: ExperimentStatus
+          started_at: string | null
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          campaign_id?: string | null
+          name: string
+          experiment_type: ExperimentType
+          status?: ExperimentStatus
+          started_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          campaign_id?: string | null
+          name?: string
+          experiment_type?: ExperimentType
+          status?: ExperimentStatus
+          started_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ab_experiment_variants: {
+        Row: {
+          id: string
+          organization_id: string
+          experiment_id: string
+          label: string
+          subject_pattern: string | null
+          body_pattern: string | null
+          send_hour: number | null
+          sends_count: number
+          replies_count: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          experiment_id: string
+          label: string
+          subject_pattern?: string | null
+          body_pattern?: string | null
+          send_hour?: number | null
+          sends_count?: number
+          replies_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          experiment_id?: string
+          label?: string
+          subject_pattern?: string | null
+          body_pattern?: string | null
+          send_hour?: number | null
+          sends_count?: number
+          replies_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      optimization_recommendations: {
+        Row: {
+          id: string
+          organization_id: string
+          recommendation_type: RecommendationType
+          title: string
+          summary: string
+          payload: Json
+          confidence_score: number
+          status: RecommendationStatus
+          icp_profile_id: string | null
+          reviewed_by: string | null
+          reviewed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          recommendation_type: RecommendationType
+          title: string
+          summary: string
+          payload?: Json
+          confidence_score?: number
+          status?: RecommendationStatus
+          icp_profile_id?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          recommendation_type?: RecommendationType
+          title?: string
+          summary?: string
+          payload?: Json
+          confidence_score?: number
+          status?: RecommendationStatus
+          icp_profile_id?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      content_edit_feedback: {
+        Row: {
+          id: string
+          organization_id: string
+          content_type: ContentFeedbackType
+          source_id: string
+          original_subject: string | null
+          original_body: string
+          edited_subject: string | null
+          edited_body: string
+          editor_id: string | null
+          prompt_version: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          content_type: ContentFeedbackType
+          source_id: string
+          original_subject?: string | null
+          original_body: string
+          edited_subject?: string | null
+          edited_body: string
+          editor_id?: string | null
+          prompt_version?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          content_type?: ContentFeedbackType
+          source_id?: string
+          original_subject?: string | null
+          original_body?: string
+          edited_subject?: string | null
+          edited_body?: string
+          editor_id?: string | null
+          prompt_version?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1481,6 +1657,11 @@ export type Database = {
       proposal_status: ProposalStatus
       invoice_status: InvoiceStatus
       onboarding_status: OnboardingStatus
+      experiment_status: ExperimentStatus
+      experiment_type: ExperimentType
+      recommendation_type: RecommendationType
+      recommendation_status: RecommendationStatus
+      content_feedback_type: ContentFeedbackType
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1527,3 +1708,7 @@ export type MeetingBrief = Tables<'meeting_briefs'>
 export type Proposal = Tables<'proposals'>
 export type Invoice = Tables<'invoices'>
 export type OnboardingWorkflow = Tables<'onboarding_workflows'>
+export type AbExperiment = Tables<'ab_experiments'>
+export type AbExperimentVariant = Tables<'ab_experiment_variants'>
+export type OptimizationRecommendation = Tables<'optimization_recommendations'>
+export type ContentEditFeedback = Tables<'content_edit_feedback'>

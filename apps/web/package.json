@@ -17,6 +17,7 @@
     "@atlas/campaigns": "workspace:*",
     "@atlas/meetings": "workspace:*",
     "@atlas/conversion": "workspace:*",
+    "@atlas/learning": "workspace:*",
     "@atlas/deliverability": "workspace:*",
     "@atlas/discovery": "workspace:*",
     "@atlas/outreach": "workspace:*",

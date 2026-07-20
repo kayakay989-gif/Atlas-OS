@@ -11,6 +11,7 @@ export const FEATURE_FLAG_NAMES = {
   campaignExecution: 'campaignExecution',
   meetingBooking: 'meetingBooking',
   conversionPipeline: 'conversionPipeline',
+  learningOptimization: 'learningOptimization',
   crmModule: 'crmModule',
   aiAgents: 'aiAgents',
 } as const
@@ -27,6 +28,7 @@ export const FEATURE_FLAG_DEFAULTS: FeatureFlags = {
   campaignExecution: false,
   meetingBooking: false,
   conversionPipeline: false,
+  learningOptimization: false,
   crmModule: false,
   aiAgents: false,
 }
@@ -39,6 +41,7 @@ export const FEATURE_FLAG_ENV_KEYS: Record<FeatureFlagName, string> = {
   campaignExecution: 'FF_CAMPAIGN_EXECUTION',
   meetingBooking: 'FF_MEETING_BOOKING',
   conversionPipeline: 'FF_CONVERSION_PIPELINE',
+  learningOptimization: 'FF_LEARNING_OPTIMIZATION',
   crmModule: 'FF_CRM_MODULE',
   aiAgents: 'FF_AI_AGENTS',
 }

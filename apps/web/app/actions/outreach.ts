@@ -2,6 +2,7 @@
 
 import { isFeatureEnabled } from '@atlas/config'
 import { getOrCreateOutreachSettings } from '@atlas/qualification'
+import { recordContentEdit } from '@atlas/learning'
 import { generateOutreachDrafts, hasBlockingQualityIssues, runQualityCheck } from '@atlas/outreach'
 import { outreachSettingsSchema, updateEmailDraftSchema } from '@atlas/types'
 import type { Json } from '@atlas/database/types'
@@ -68,7 +69,7 @@ export async function updateEmailDraftAction(
   _prev: OutreachActionState,
   formData: FormData,
 ): Promise<OutreachActionState> {
-  const { activeOrganization } = await requireOrganizationContext()
+  const { activeOrganization, user } = await requireOrganizationContext()
   assertOutreachEnabled(activeOrganization.id)
 
   const draftId = getFormString(formData, 'draftId')
@@ -84,7 +85,7 @@ export async function updateEmailDraftAction(
   const supabase = await createClient()
   const { data: draft, error: fetchError } = await supabase
     .from('email_drafts')
-    .select('id, company_id, contact_id, status')
+    .select('id, company_id, contact_id, status, subject, body')
     .eq('id', draftId)
     .eq('organization_id', activeOrganization.id)
     .single()
@@ -136,6 +137,25 @@ export async function updateEmailDraftAction(
 
   if (error) {
     return { error: error.message }
+  }
+
+  const contentChanged = draft.subject !== parsed.data.subject || draft.body !== parsed.data.body
+
+  if (
+    contentChanged &&
+    isFeatureEnabled('learningOptimization', { organizationId: activeOrganization.id })
+  ) {
+    await recordContentEdit(supabase, {
+      organizationId: activeOrganization.id,
+      contentType: 'email_draft',
+      sourceId: draft.id,
+      originalSubject: draft.subject,
+      originalBody: draft.body,
+      editedSubject: parsed.data.subject,
+      editedBody: parsed.data.body,
+      editorId: user.id,
+      promptVersion: 'v1',
+    })
   }
 
   revalidatePath(`/outreach/${draftId}`)

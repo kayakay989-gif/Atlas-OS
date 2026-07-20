@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M7 Complete — pending staging)
+**Updated By:** Lead Architect (M8 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,9 +9,39 @@
 
 ## Current Milestone
 
-**M7 — Proposals & Invoicing** ✅ **Complete** (staging verification pending)
+**M8 — Learning & Optimization** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M8 — Learning & Optimization
+**Next Milestone:** M9 — Production Hardening
+
+---
+
+## M8 Phase Progress
+
+| Phase | Name                                             | Status      |
+| ----- | ------------------------------------------------ | ----------- |
+| 1     | Database Schema & RLS                            | ✅ Complete |
+| 2     | Types & `@atlas/learning` Package                | ✅ Complete |
+| 3     | Worker Jobs, Feedback Hooks & Web Actions        | ✅ Complete |
+| 4     | Web UI (Analytics, Experiments, Recommendations) | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off                   | ✅ Complete |
+
+Full plan: [docs/milestones/m8-implementation-plan.md](./docs/milestones/m8-implementation-plan.md)
+
+---
+
+## M8 Deliverables (Verified)
+
+- [x] Supabase migration: `ab_experiments`, `ab_experiment_variants`, `optimization_recommendations`, `content_edit_feedback`, RLS, audit
+- [x] `@atlas/learning` — campaign metrics, A/B significance, copy/send-time/ICP recommendations
+- [x] Worker job: `learning-analyze`
+- [x] UI: `/analytics`, `/analytics/experiments`, `/analytics/recommendations`
+- [x] Human edit feedback wired into outreach and proposal updates
+- [x] Style hints from edits fed back into email generation
+- [x] Feature flag: `FF_LEARNING_OPTIMIZATION=true`
+- [x] Unit tests for significance, copy patterns, send-time analysis
+- [x] `pnpm validate` passes
+- [ ] Auto-apply recommendations (explicitly out of scope — human approval only)
+- [ ] Deployed to staging and manually verified
 
 ---
 
