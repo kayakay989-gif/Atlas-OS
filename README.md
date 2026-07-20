@@ -8,7 +8,7 @@ Atlas Sales OS is not a CRM. It is an autonomous outbound sales platform designe
 
 ## Status
 
-**Milestone 8 complete** — campaign analytics, A/B experiments, optimization recommendations, and human-edit feedback loops. M9 (Production Hardening) is next.
+**Milestone 9 complete** — production hardening with deep health checks, ops monitoring, usage metering, audit scripts, and operator documentation. All roadmap milestones (M0–M9) are implemented.
 
 See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md).
 

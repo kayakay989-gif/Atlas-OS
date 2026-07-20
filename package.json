@@ -10,6 +10,8 @@
     "test": "turbo test",
     "test:e2e": "pnpm --filter @atlas/web test:e2e",
     "validate": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "security:audit": "node scripts/security-audit.mjs",
+    "load:test": "node scripts/load-test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",

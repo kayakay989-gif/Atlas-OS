@@ -17,6 +17,7 @@
     "@atlas/meetings": "workspace:*",
     "@atlas/conversion": "workspace:*",
     "@atlas/learning": "workspace:*",
+    "@atlas/ops": "workspace:*",
     "@atlas/deliverability": "workspace:*",
     "@atlas/database": "workspace:*",
     "@atlas/discovery": "workspace:*",

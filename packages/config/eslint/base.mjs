@@ -8,6 +8,8 @@ export const atlasIgnores = [
   '**/dist/**',
   '**/.trigger/**',
   'packages/database/src/types.ts',
+  'packages/config/eslint/**',
+  'scripts/**',
 ]
 
 export const atlasRules = {

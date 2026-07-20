@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
     '@atlas/meetings',
     '@atlas/conversion',
     '@atlas/learning',
+    '@atlas/ops',
     '@atlas/discovery',
     '@atlas/outreach',
     '@atlas/qualification',

@@ -28,6 +28,15 @@ export type ExperimentType = 'subject_line' | 'copy_variant' | 'send_time'
 export type RecommendationType = 'icp_refinement' | 'copy_pattern' | 'send_time'
 export type RecommendationStatus = 'pending' | 'accepted' | 'dismissed'
 export type ContentFeedbackType = 'email_draft' | 'proposal'
+export type AlertSeverity = 'info' | 'warning' | 'critical'
+export type AlertStatus = 'open' | 'acknowledged' | 'resolved'
+export type UsageEventType =
+  | 'email_sent'
+  | 'meeting_booked'
+  | 'proposal_sent'
+  | 'invoice_paid'
+  | 'discovery_run'
+  | 'ai_generation'
 
 export type Database = {
   public: {
@@ -1586,6 +1595,81 @@ export type Database = {
         }
         Relationships: []
       }
+      system_alerts: {
+        Row: {
+          id: string
+          organization_id: string
+          alert_key: string
+          severity: AlertSeverity
+          status: AlertStatus
+          title: string
+          message: string
+          payload: Json
+          acknowledged_by: string | null
+          acknowledged_at: string | null
+          resolved_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          alert_key: string
+          severity?: AlertSeverity
+          status?: AlertStatus
+          title: string
+          message: string
+          payload?: Json
+          acknowledged_by?: string | null
+          acknowledged_at?: string | null
+          resolved_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          alert_key?: string
+          severity?: AlertSeverity
+          status?: AlertStatus
+          title?: string
+          message?: string
+          payload?: Json
+          acknowledged_by?: string | null
+          acknowledged_at?: string | null
+          resolved_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      usage_events: {
+        Row: {
+          id: string
+          organization_id: string
+          event_type: UsageEventType
+          quantity: number
+          metadata: Json
+          recorded_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          event_type: UsageEventType
+          quantity?: number
+          metadata?: Json
+          recorded_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          event_type?: UsageEventType
+          quantity?: number
+          metadata?: Json
+          recorded_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1662,6 +1746,9 @@ export type Database = {
       recommendation_type: RecommendationType
       recommendation_status: RecommendationStatus
       content_feedback_type: ContentFeedbackType
+      alert_severity: AlertSeverity
+      alert_status: AlertStatus
+      usage_event_type: UsageEventType
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1712,3 +1799,5 @@ export type AbExperiment = Tables<'ab_experiments'>
 export type AbExperimentVariant = Tables<'ab_experiment_variants'>
 export type OptimizationRecommendation = Tables<'optimization_recommendations'>
 export type ContentEditFeedback = Tables<'content_edit_feedback'>
+export type SystemAlert = Tables<'system_alerts'>
+export type UsageEvent = Tables<'usage_events'>

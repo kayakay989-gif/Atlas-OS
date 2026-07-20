@@ -8,6 +8,7 @@ import {
 } from '@atlas/deliverability'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@atlas/database/types'
+import { recordUsageEvent } from '@atlas/ops'
 
 type Client = SupabaseClient<Database>
 
@@ -154,6 +155,17 @@ export async function executeSend(
       .from('campaigns')
       .update({ sends_count: campaign.sends_count + 1 })
       .eq('id', input.campaignId)
+  }
+
+  try {
+    await recordUsageEvent(client, {
+      organizationId: input.organizationId,
+      eventType: 'email_sent',
+      quantity: 1,
+      metadata: { campaignId: input.campaignId, sendRecordId: record.id },
+    })
+  } catch {
+    // Usage metering must not block sends.
   }
 
   return { sendRecordId: record.id, status: 'sent', failures: [] }

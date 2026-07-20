@@ -15,6 +15,6 @@ See [Milestone Plan](./milestone-plan.md) for the full phased delivery plan.
 | M6  | Meeting Booking          | Not started                        |
 | M7  | Proposals & Invoicing    | Not started                        |
 | M8  | Learning & Optimization  | Complete                           |
-| M9  | Production Hardening     | Not started                        |
+| M9  | Production Hardening     | Complete                           |
 
 **Current milestone:** M0 — Project Foundation (Phase 1 complete; awaiting Phase 2 approval)

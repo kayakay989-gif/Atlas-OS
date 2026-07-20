@@ -23,6 +23,7 @@ const navItems = [
   { href: '/proposals', label: 'Proposals' },
   { href: '/invoices', label: 'Invoices' },
   { href: '/analytics', label: 'Analytics' },
+  { href: '/operations', label: 'Operations' },
   { href: '/settings', label: 'Settings' },
   { href: '/settings/outreach', label: 'Outreach settings' },
   { href: '/settings/meetings', label: 'Meeting settings' },

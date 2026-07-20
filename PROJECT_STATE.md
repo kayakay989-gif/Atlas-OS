@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M8 Complete — pending staging)
+**Updated By:** Lead Architect (M9 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,9 +9,39 @@
 
 ## Current Milestone
 
-**M8 — Learning & Optimization** ✅ **Complete** (staging verification pending)
+**M9 — Production Hardening** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M9 — Production Hardening
+**Roadmap:** All planned milestones (M0–M9) implemented. Staging verification and commercial launch remain.
+
+---
+
+## M9 Phase Progress
+
+| Phase | Name                                        | Status      |
+| ----- | ------------------------------------------- | ----------- |
+| 1     | Database Schema, Indexes & RLS              | ✅ Complete |
+| 2     | Types & `@atlas/ops` Package                | ✅ Complete |
+| 3     | Deep Health, Worker Monitor & Audit Scripts | ✅ Complete |
+| 4     | Web UI (Operations Dashboard) & Docs        | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off              | ✅ Complete |
+
+Full plan: [docs/milestones/m9-implementation-plan.md](./docs/milestones/m9-implementation-plan.md)
+
+---
+
+## M9 Deliverables (Verified)
+
+- [x] Deep `/health` endpoint with database latency checks
+- [x] `@atlas/ops` — alerts, usage metering, monitoring evaluation
+- [x] Worker job: `ops-monitor`
+- [x] UI: `/operations` (alerts, health, usage summary)
+- [x] Performance indexes on hot dashboard paths
+- [x] Scripts: `pnpm security:audit`, `pnpm load:test`
+- [x] Operator guide, runbooks, disaster recovery docs
+- [x] Feature flag: `FF_OPS_MONITORING=true`
+- [x] `pnpm validate` passes
+- [ ] External penetration test (operator-run)
+- [ ] Deployed to staging and manually verified
 
 ---
 
