@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
     '@atlas/types',
     '@atlas/config',
     '@atlas/discovery',
+    '@atlas/outreach',
+    '@atlas/qualification',
   ],
   outputFileTracingRoot: path.join(__dirname, '../..'),
   headers() {

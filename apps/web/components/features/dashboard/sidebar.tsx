@@ -14,7 +14,11 @@ const navItems = [
   { href: '/dashboard', label: 'Overview' },
   { href: '/discovery', label: 'Discovery' },
   { href: '/companies', label: 'Companies' },
+  { href: '/qualification', label: 'Qualification' },
+  { href: '/outreach', label: 'Outreach' },
+  { href: '/sequences', label: 'Sequences' },
   { href: '/settings', label: 'Settings' },
+  { href: '/settings/outreach', label: 'Outreach settings' },
   { href: '/settings/team', label: 'Team' },
 ]
 

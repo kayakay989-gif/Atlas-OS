@@ -1,9 +1,23 @@
 import Link from 'next/link'
+import { isFeatureEnabled } from '@atlas/config'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@atlas/ui'
+import { createClient } from '@/lib/supabase/server'
 import { requireOrganizationContext } from '@/lib/auth/session'
 
 export default async function DashboardPage() {
   const { activeOrganization, activeRole, user } = await requireOrganizationContext()
+  const outreachEnabled = isFeatureEnabled('outreachGeneration', {
+    organizationId: activeOrganization.id,
+  })
+
+  const supabase = await createClient()
+  const pendingDrafts = outreachEnabled
+    ? await supabase
+        .from('email_drafts')
+        .select('*', { count: 'exact', head: true })
+        .eq('organization_id', activeOrganization.id)
+        .eq('status', 'pending_review')
+    : { count: 0 }
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-8">
@@ -31,10 +45,23 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Outreach</CardTitle>
-            <CardDescription>Sequences and campaigns ship in M3–M5.</CardDescription>
+            <CardDescription>Qualification, sequences, and email review.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-sm">No outreach drafts yet.</p>
+          <CardContent className="space-y-2">
+            {outreachEnabled ? (
+              <>
+                <p className="text-muted-foreground text-sm">
+                  {pendingDrafts.count ?? 0} drafts pending review
+                </p>
+                <Link href="/outreach" className="text-primary text-sm font-medium hover:underline">
+                  Review email drafts →
+                </Link>
+              </>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                Enable FF_OUTREACH_GENERATION to unlock outreach.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -4,6 +4,8 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type MembershipRole = 'owner' | 'admin' | 'member'
 export type CompanyStatus = 'discovered' | 'crawling' | 'researching' | 'researched' | 'failed'
 export type PipelineJobStatus = 'pending' | 'running' | 'completed' | 'failed'
+export type LeadQualificationStatus = 'pending' | 'qualified' | 'rejected'
+export type EmailDraftStatus = 'draft' | 'pending_review' | 'approved' | 'rejected'
 
 export type Database = {
   public: {
@@ -485,6 +487,198 @@ export type Database = {
         }
         Relationships: []
       }
+      organization_outreach_settings: {
+        Row: {
+          organization_id: string
+          require_manual_approval: boolean
+          min_qualification_score: number
+          default_sequence_id: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          organization_id: string
+          require_manual_approval?: boolean
+          min_qualification_score?: number
+          default_sequence_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          organization_id?: string
+          require_manual_approval?: boolean
+          min_qualification_score?: number
+          default_sequence_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_sequences: {
+        Row: {
+          id: string
+          organization_id: string
+          name: string
+          description: string | null
+          is_default: boolean
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          name: string
+          description?: string | null
+          is_default?: boolean
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          name?: string
+          description?: string | null
+          is_default?: boolean
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sequence_steps: {
+        Row: {
+          id: string
+          organization_id: string
+          sequence_id: string
+          step_order: number
+          delay_days: number
+          subject_template: string
+          body_template: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          sequence_id: string
+          step_order: number
+          delay_days?: number
+          subject_template: string
+          body_template: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          sequence_id?: string
+          step_order?: number
+          delay_days?: number
+          subject_template?: string
+          body_template?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lead_scores: {
+        Row: {
+          id: string
+          organization_id: string
+          company_id: string
+          score: number
+          status: LeadQualificationStatus
+          reasoning: string | null
+          factors: Json
+          model: string | null
+          prompt_version: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          company_id: string
+          score: number
+          status?: LeadQualificationStatus
+          reasoning?: string | null
+          factors?: Json
+          model?: string | null
+          prompt_version?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          company_id?: string
+          score?: number
+          status?: LeadQualificationStatus
+          reasoning?: string | null
+          factors?: Json
+          model?: string | null
+          prompt_version?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_drafts: {
+        Row: {
+          id: string
+          organization_id: string
+          company_id: string
+          contact_id: string | null
+          sequence_id: string
+          sequence_step_id: string
+          step_order: number
+          status: EmailDraftStatus
+          subject: string
+          body: string
+          quality_issues: Json
+          reviewed_by: string | null
+          reviewed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          company_id: string
+          contact_id?: string | null
+          sequence_id: string
+          sequence_step_id: string
+          step_order: number
+          status?: EmailDraftStatus
+          subject: string
+          body: string
+          quality_issues?: Json
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          company_id?: string
+          contact_id?: string | null
+          sequence_id?: string
+          sequence_step_id?: string
+          step_order?: number
+          status?: EmailDraftStatus
+          subject?: string
+          body?: string
+          quality_issues?: Json
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -525,6 +719,8 @@ export type Database = {
       membership_role: MembershipRole
       company_status: CompanyStatus
       pipeline_job_status: PipelineJobStatus
+      lead_qualification_status: LeadQualificationStatus
+      email_draft_status: EmailDraftStatus
     }
     CompositeTypes: {
       [_ in never]: never
@@ -550,3 +746,8 @@ export type CompanyCrawl = Tables<'company_crawls'>
 export type ResearchReportRow = Tables<'research_reports'>
 export type Contact = Tables<'contacts'>
 export type PipelineJob = Tables<'pipeline_jobs'>
+export type OrganizationOutreachSettings = Tables<'organization_outreach_settings'>
+export type EmailSequence = Tables<'email_sequences'>
+export type SequenceStep = Tables<'sequence_steps'>
+export type LeadScore = Tables<'lead_scores'>
+export type EmailDraft = Tables<'email_drafts'>

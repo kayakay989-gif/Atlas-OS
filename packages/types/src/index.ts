@@ -18,6 +18,38 @@ export {
   type ResearchReport,
 } from './discovery'
 export {
+  leadQualificationJobPayloadSchema,
+  leadQualificationStatusSchema,
+  leadScoreFactorSchema,
+  leadScoreResultSchema,
+  outreachGenerationJobPayloadSchema,
+  outreachSettingsSchema,
+  postResearchPipelineJobPayloadSchema,
+  type LeadQualificationJobPayload,
+  type LeadQualificationStatus,
+  type LeadScoreFactor,
+  type LeadScoreResult,
+  type OutreachGenerationJobPayload,
+  type OutreachSettingsInput,
+  type PostResearchPipelineJobPayload,
+} from './qualification'
+export {
+  emailDraftStatusSchema,
+  emailSequenceSchema,
+  generatedEmailSchema,
+  qualityIssueSchema,
+  reviewEmailDraftSchema,
+  sequenceStepInputSchema,
+  updateEmailDraftSchema,
+  type EmailDraftStatus,
+  type EmailSequenceInput,
+  type GeneratedEmail,
+  type QualityIssue,
+  type ReviewEmailDraftInput,
+  type SequenceStepInput,
+  type UpdateEmailDraftInput,
+} from './outreach'
+export {
   createOrganizationSchema,
   inviteMemberSchema,
   inviteRoleSchema,

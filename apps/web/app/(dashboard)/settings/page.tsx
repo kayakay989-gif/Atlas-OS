@@ -15,6 +15,13 @@ export default async function SettingsPage() {
         organizationName={activeOrganization.name}
         role={activeRole}
       />
+      <p className="text-muted-foreground text-sm">
+        Configure qualification and approval in{' '}
+        <a href="/settings/outreach" className="text-primary hover:underline">
+          outreach settings
+        </a>
+        .
+      </p>
     </div>
   )
 }

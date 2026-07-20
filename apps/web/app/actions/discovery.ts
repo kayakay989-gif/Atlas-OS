@@ -2,6 +2,7 @@
 
 import { runCompanyPipeline, runCsvDiscovery } from '@atlas/discovery'
 import { isFeatureEnabled } from '@atlas/config'
+import { runPostResearchPipeline } from '@atlas/outreach'
 import { icpProfileSchema } from '@atlas/types'
 import { after } from 'next/server'
 import { revalidatePath } from 'next/cache'
@@ -29,6 +30,17 @@ function parseListField(value: string): string[] {
 function assertDiscoveryEnabled(organizationId: string): void {
   if (!isFeatureEnabled('discoveryPipeline', { organizationId })) {
     throw new Error('Discovery pipeline is disabled. Set FF_DISCOVERY_PIPELINE=true to enable.')
+  }
+}
+
+async function runCompanyPipelineChain(
+  client: Awaited<ReturnType<typeof createClient>>,
+  input: { organizationId: string; companyId: string },
+): Promise<void> {
+  await runCompanyPipeline(client, input)
+
+  if (isFeatureEnabled('outreachGeneration', { organizationId: input.organizationId })) {
+    await runPostResearchPipeline(client, input)
   }
 }
 
@@ -107,7 +119,7 @@ export async function runCsvDiscoveryAction(
       const bgClient = await createClient()
       for (const companyId of companyIds) {
         try {
-          await runCompanyPipeline(bgClient, {
+          await runCompanyPipelineChain(bgClient, {
             organizationId: activeOrganization.id,
             companyId,
           })
@@ -133,7 +145,7 @@ export async function rerunCompanyPipelineAction(companyId: string): Promise<Dis
 
   after(async () => {
     const bgClient = await createClient()
-    await runCompanyPipeline(bgClient, {
+    await runCompanyPipelineChain(bgClient, {
       organizationId: activeOrganization.id,
       companyId,
     })

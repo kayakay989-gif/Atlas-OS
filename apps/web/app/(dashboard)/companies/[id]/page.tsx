@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { isFeatureEnabled } from '@atlas/config'
+import { regenerateOutreachFormAction } from '@/app/actions/outreach'
 import { Button, Card, CardContent, CardHeader, CardTitle } from '@atlas/ui'
 import { rerunCompanyPipelineFormAction } from '@/app/actions/discovery'
 import { createClient } from '@/lib/supabase/server'
@@ -12,6 +14,9 @@ interface CompanyPageProps {
 export default async function CompanyDetailPage({ params }: CompanyPageProps) {
   const { id } = await params
   const { activeOrganization } = await requireOrganizationContext()
+  const outreachEnabled = isFeatureEnabled('outreachGeneration', {
+    organizationId: activeOrganization.id,
+  })
   const supabase = await createClient()
 
   const { data: company } = await supabase
@@ -46,6 +51,18 @@ export default async function CompanyDetailPage({ params }: CompanyPageProps) {
 
   const painPoints = Array.isArray(report?.pain_points) ? (report.pain_points as string[]) : []
 
+  const { data: leadScore } = outreachEnabled
+    ? await supabase.from('lead_scores').select('*').eq('company_id', company.id).maybeSingle()
+    : { data: null }
+
+  const { data: emailDrafts } = outreachEnabled
+    ? await supabase
+        .from('email_drafts')
+        .select('id, subject, status, step_order')
+        .eq('company_id', company.id)
+        .order('step_order', { ascending: true })
+    : { data: null }
+
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-8">
       <div className="flex items-start justify-between gap-4">
@@ -70,6 +87,24 @@ export default async function CompanyDetailPage({ params }: CompanyPageProps) {
       ) : null}
 
       <div className="grid gap-4 md:grid-cols-2">
+        {outreachEnabled && leadScore ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Qualification</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p className="text-2xl font-semibold">{leadScore.score}</p>
+              <p className="text-muted-foreground capitalize">Status: {leadScore.status}</p>
+              {leadScore.reasoning ? (
+                <p className="text-muted-foreground">{leadScore.reasoning}</p>
+              ) : null}
+              <Link href="/qualification" className="text-primary text-sm hover:underline">
+                View all scores →
+              </Link>
+            </CardContent>
+          </Card>
+        ) : null}
+
         <Card>
           <CardHeader>
             <CardTitle>Research summary</CardTitle>
@@ -112,6 +147,31 @@ export default async function CompanyDetailPage({ params }: CompanyPageProps) {
           </CardContent>
         </Card>
       </div>
+
+      {outreachEnabled && emailDrafts && emailDrafts.length > 0 ? (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Outreach drafts</CardTitle>
+            <form action={regenerateOutreachFormAction.bind(null, company.id)}>
+              <Button type="submit" variant="outline" size="sm">
+                Regenerate
+              </Button>
+            </form>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm">
+              {emailDrafts.map((draft) => (
+                <li key={draft.id} className="flex items-center justify-between gap-4">
+                  <Link href={`/outreach/${draft.id}`} className="hover:underline">
+                    Step {draft.step_order}: {draft.subject}
+                  </Link>
+                  <span className="text-muted-foreground text-xs uppercase">{draft.status}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {crawl?.extracted_content ? (
         <Card>

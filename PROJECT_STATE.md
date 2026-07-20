@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M2 Complete — pending staging)
+**Updated By:** Lead Architect (M3 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,23 +9,41 @@
 
 ## Current Milestone
 
-**M2 — Discovery & Research Pipeline** ✅ **Complete** (staging verification pending)
+**M3 — Qualification & Outreach Generation** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M3 — Qualification & Scoring (awaiting approval to start)
+**Next Milestone:** M4 — Email Infrastructure (can run in parallel) or M5 — Campaigns & Replies (awaiting approval)
 
 ---
 
-## M2 Phase Progress
+## M3 Phase Progress
 
-| Phase | Name                               | Status      |
-| ----- | ---------------------------------- | ----------- |
-| 1     | Database Schema & RLS              | ✅ Complete |
-| 2     | Types & `@atlas/discovery` Package | ✅ Complete |
-| 3     | Pipeline Services & Worker Jobs    | ✅ Complete |
-| 4     | Web UI (ICP, Companies, Profiles)  | ✅ Complete |
-| 5     | Tests, Feature Flag & Sign-Off     | ✅ Complete |
+| Phase | Name                                        | Status      |
+| ----- | ------------------------------------------- | ----------- |
+| 1     | Database Schema & RLS                       | ✅ Complete |
+| 2     | Types, Qualification & Outreach Packages    | ✅ Complete |
+| 3     | Pipeline Services & Worker Jobs             | ✅ Complete |
+| 4     | Web UI (Qualification, Outreach, Sequences) | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off              | ✅ Complete |
 
-Full plan: [docs/milestones/m2-implementation-plan.md](./docs/milestones/m2-implementation-plan.md)
+Full plan: [docs/milestones/m3-implementation-plan.md](./docs/milestones/m3-implementation-plan.md)
+
+---
+
+## M3 Deliverables (Verified)
+
+- [x] Supabase migration: `lead_scores`, `email_sequences`, `sequence_steps`, `email_drafts`, `organization_outreach_settings`, RLS
+- [x] `@atlas/qualification` — deterministic lead scoring after research
+- [x] `@atlas/outreach` — email generation, quality checks, default 3-step sequence
+- [x] Post-research pipeline chains qualification → outreach when `FF_OUTREACH_GENERATION=true`
+- [x] Worker jobs: `lead-qualification`, `outreach-generation`, `post-research-pipeline`
+- [x] UI: `/qualification`, `/outreach`, `/outreach/[id]`, `/sequences`, `/settings/outreach`
+- [x] Approval workflow: review, edit, approve/reject drafts
+- [x] Outreach settings: min score threshold, manual approval toggle
+- [x] Unit tests for scoring, quality checks, sequence/email schemas
+- [x] `pnpm validate` passes
+- [ ] Real OpenAI email generation (mock used for M3)
+- [ ] E2E tests for qualification → outreach flow
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -40,9 +58,6 @@ Full plan: [docs/milestones/m2-implementation-plan.md](./docs/milestones/m2-impl
 - [x] Feature flag: `FF_DISCOVERY_PIPELINE=true`
 - [x] Unit tests for discovery types, CSV parsing, research schema
 - [x] `pnpm validate` passes
-- [ ] Real OpenAI research provider (mock used for M2)
-- [ ] E2E tests for discovery flow
-- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -59,8 +74,6 @@ Full plan: [docs/milestones/m2-implementation-plan.md](./docs/milestones/m2-impl
 - [x] Unit tests for auth schemas and RBAC
 - [x] Playwright auth shell e2e tests
 - [x] `pnpm validate` passes
-- [ ] RLS integration tests in CI (requires local Supabase in dev)
-- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -83,18 +96,20 @@ Full plan: [docs/milestones/m2-implementation-plan.md](./docs/milestones/m2-impl
 
 ## Package Layout
 
-| Package            | Purpose                                                                |
-| ------------------ | ---------------------------------------------------------------------- |
-| `@atlas/config`    | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
-| `@atlas/database`  | Supabase client factory + typed schema                                 |
-| `@atlas/discovery` | CSV discovery, crawl, research pipeline orchestration                  |
-| `@atlas/events`    | Domain event catalog                                                   |
-| `@atlas/jobs`      | Job abstraction (Trigger.dev isolated in worker)                       |
-| `@atlas/providers` | Pluggable provider interfaces                                          |
-| `@atlas/shared`    | Errors, constants, structured logger, RBAC helpers                     |
-| `@atlas/types`     | Zod schemas + shared types (auth, discovery, jobs)                     |
-| `@atlas/ui`        | shadcn/ui components + design tokens                                   |
-| `@atlas/utils`     | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
+| Package                | Purpose                                                                |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `@atlas/config`        | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
+| `@atlas/database`      | Supabase client factory + typed schema                                 |
+| `@atlas/discovery`     | CSV discovery, crawl, research pipeline orchestration                  |
+| `@atlas/qualification` | Lead scoring after research                                            |
+| `@atlas/outreach`      | Email generation, sequences, quality checks, draft management          |
+| `@atlas/events`        | Domain event catalog                                                   |
+| `@atlas/jobs`          | Job abstraction (Trigger.dev isolated in worker)                       |
+| `@atlas/providers`     | Pluggable provider interfaces                                          |
+| `@atlas/shared`        | Errors, constants, structured logger, RBAC helpers                     |
+| `@atlas/types`         | Zod schemas + shared types (auth, discovery, qualification, outreach)  |
+| `@atlas/ui`            | shadcn/ui components + design tokens                                   |
+| `@atlas/utils`         | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
 
 ---
 
@@ -108,7 +123,7 @@ pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
 ```
 
-Set `FF_DISCOVERY_PIPELINE=true` in `.env.local` to enable discovery routes.
+Set `FF_DISCOVERY_PIPELINE=true` and `FF_OUTREACH_GENERATION=true` in `.env.local`.
 
 Last validated: **2026-07-20** — all green.
 
@@ -119,7 +134,7 @@ Last validated: **2026-07-20** — all green.
 | Issue                                                | Severity | Notes                         |
 | ---------------------------------------------------- | -------- | ----------------------------- |
 | RLS integration tests not in CI yet                  | Low      | Run locally with Supabase CLI |
-| Research uses mock provider (not OpenAI)             | Low      | Wire real provider in M2+     |
+| Research/email uses mock providers (not OpenAI)      | Low      | Wire real provider in M3+     |
 | `next build` ESLint plugin warning                   | Low      | FlatCompat + monorepo         |
 | Turbo warnings: database/worker build has no outputs | Low      | Typecheck-only build scripts  |
 | Trigger.dev project ID placeholder                   | Low      | Set before worker dev         |
@@ -131,7 +146,7 @@ Last validated: **2026-07-20** — all green.
 | Item                              | Resolve In                  |
 | --------------------------------- | --------------------------- |
 | RLS integration test suite in CI  | M1 follow-up                |
-| OpenAI research provider          | M2 follow-up                |
+| OpenAI research + email providers | M3 follow-up                |
 | Firecrawl / Playwright providers  | M2+                         |
 | Per-org feature flags UI          | M2+ (schema ready)          |
 | Native Next.js flat ESLint config | When Next.js docs stabilize |
@@ -141,9 +156,9 @@ Last validated: **2026-07-20** — all green.
 ## Next Step
 
 1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
-2. Set `FF_DISCOVERY_PIPELINE=true`, sign in, create ICP → import CSV → view company research
-3. Connect Vercel + Supabase staging for deployment verification
-4. Approve **M3 — Qualification & Scoring** to begin
+2. Enable `FF_DISCOVERY_PIPELINE=true` and `FF_OUTREACH_GENERATION=true`
+3. Import CSV → research completes → review scores at `/qualification` → approve drafts at `/outreach`
+4. Approve **M4 — Email Infrastructure** or **M5 — Campaigns & Replies** to begin
 
 ---
 

@@ -1,5 +1,7 @@
 import { companyPipelineJobPayloadSchema, discoveryJobPayloadSchema } from '@atlas/types'
+import { isFeatureEnabled } from '@atlas/config'
 import { runCompanyPipeline, runCsvDiscovery } from '@atlas/discovery'
+import { runPostResearchPipeline } from '@atlas/outreach'
 import { createJob, bindTriggerDevAdapter } from '../adapters/trigger'
 import { createServerSupabaseClient, getSupabaseConfigFromEnv } from '@atlas/database'
 import { workerLogger } from '../lib/logger'
@@ -30,6 +32,13 @@ export const discoveryRunJob = createJob({
         organizationId: payload.organizationId,
         companyId,
       })
+
+      if (isFeatureEnabled('outreachGeneration', { organizationId: payload.organizationId })) {
+        await runPostResearchPipeline(client, {
+          organizationId: payload.organizationId,
+          companyId,
+        })
+      }
     }
 
     workerLogger.info('discovery-run completed', {
@@ -48,6 +57,10 @@ export const companyPipelineJob = createJob({
   run: async (payload) => {
     const client = getServiceClient()
     await runCompanyPipeline(client, payload)
+
+    if (isFeatureEnabled('outreachGeneration', { organizationId: payload.organizationId })) {
+      await runPostResearchPipeline(client, payload)
+    }
 
     workerLogger.info('company-pipeline completed', {
       event: 'company.researched',
