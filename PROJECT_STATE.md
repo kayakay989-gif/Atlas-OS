@@ -161,6 +161,7 @@ Full plan: [docs/milestones/m3-implementation-plan.md](./docs/milestones/m3-impl
 | `@atlas/discovery`      | CSV discovery, crawl, research pipeline orchestration                  |
 | `@atlas/qualification`  | Lead scoring after research                                            |
 | `@atlas/deliverability` | DNS validation, warm-up, health scoring, pre-send checks               |
+| `@atlas/campaigns`      | Campaign builder, send scheduler, mock dispatch, reply handling        |
 | `@atlas/outreach`       | Email generation, sequences, quality checks, draft management          |
 | `@atlas/events`         | Domain event catalog                                                   |
 | `@atlas/jobs`           | Job abstraction (Trigger.dev isolated in worker)                       |
