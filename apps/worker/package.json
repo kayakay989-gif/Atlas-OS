@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@atlas/config": "workspace:*",
+    "@atlas/deliverability": "workspace:*",
     "@atlas/database": "workspace:*",
     "@atlas/discovery": "workspace:*",
     "@atlas/outreach": "workspace:*",

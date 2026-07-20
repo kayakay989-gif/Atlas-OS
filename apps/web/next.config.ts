@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
     '@atlas/database',
     '@atlas/types',
     '@atlas/config',
+    '@atlas/deliverability',
     '@atlas/discovery',
     '@atlas/outreach',
     '@atlas/qualification',

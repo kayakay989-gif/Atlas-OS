@@ -8,7 +8,7 @@ Atlas Sales OS is not a CRM. It is an autonomous outbound sales platform designe
 
 ## Status
 
-**Milestone 3 complete** — lead scoring, 3-step sequences, personalized email drafts, and approval workflows. M4 (Email Infrastructure) or M5 (Campaigns) is next.
+**Milestone 4 complete** — outreach domains, mailboxes, DNS validation, warm-up, suppression, and deliverability dashboard. M5 (Campaigns & Replies) is next.
 
 See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md).
 

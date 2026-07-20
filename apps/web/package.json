@@ -14,6 +14,7 @@
   "dependencies": {
     "@atlas/config": "workspace:*",
     "@atlas/database": "workspace:*",
+    "@atlas/deliverability": "workspace:*",
     "@atlas/discovery": "workspace:*",
     "@atlas/outreach": "workspace:*",
     "@atlas/qualification": "workspace:*",

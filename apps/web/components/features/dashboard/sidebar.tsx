@@ -17,6 +17,7 @@ const navItems = [
   { href: '/qualification', label: 'Qualification' },
   { href: '/outreach', label: 'Outreach' },
   { href: '/sequences', label: 'Sequences' },
+  { href: '/deliverability', label: 'Deliverability' },
   { href: '/settings', label: 'Settings' },
   { href: '/settings/outreach', label: 'Outreach settings' },
   { href: '/settings/team', label: 'Team' },

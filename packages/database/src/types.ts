@@ -6,6 +6,11 @@ export type CompanyStatus = 'discovered' | 'crawling' | 'researching' | 'researc
 export type PipelineJobStatus = 'pending' | 'running' | 'completed' | 'failed'
 export type LeadQualificationStatus = 'pending' | 'qualified' | 'rejected'
 export type EmailDraftStatus = 'draft' | 'pending_review' | 'approved' | 'rejected'
+export type DomainVerificationStatus = 'pending' | 'verified' | 'failed'
+export type MailboxProvider = 'google_workspace' | 'smtp'
+export type MailboxStatus = 'warming' | 'active' | 'paused' | 'disabled'
+export type SuppressionReason =
+  'hard_bounce' | 'soft_bounce' | 'unsubscribe' | 'manual' | 'complaint'
 
 export type Database = {
   public: {
@@ -679,6 +684,135 @@ export type Database = {
         }
         Relationships: []
       }
+      outreach_domains: {
+        Row: {
+          id: string
+          organization_id: string
+          domain: string
+          verification_status: DomainVerificationStatus
+          spf_valid: boolean
+          dkim_valid: boolean
+          dmarc_valid: boolean
+          dkim_selector: string
+          dns_last_checked_at: string | null
+          health_score: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          domain: string
+          verification_status?: DomainVerificationStatus
+          spf_valid?: boolean
+          dkim_valid?: boolean
+          dmarc_valid?: boolean
+          dkim_selector?: string
+          dns_last_checked_at?: string | null
+          health_score?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          domain?: string
+          verification_status?: DomainVerificationStatus
+          spf_valid?: boolean
+          dkim_valid?: boolean
+          dmarc_valid?: boolean
+          dkim_selector?: string
+          dns_last_checked_at?: string | null
+          health_score?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      mailboxes: {
+        Row: {
+          id: string
+          organization_id: string
+          domain_id: string
+          email_address: string
+          display_name: string | null
+          provider: MailboxProvider
+          status: MailboxStatus
+          daily_send_limit: number
+          sends_today: number
+          sends_today_reset_at: string
+          warm_up_started_at: string
+          health_score: number
+          bounce_rate_30d: number
+          complaint_rate_30d: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          domain_id: string
+          email_address: string
+          display_name?: string | null
+          provider?: MailboxProvider
+          status?: MailboxStatus
+          daily_send_limit?: number
+          sends_today?: number
+          sends_today_reset_at?: string
+          warm_up_started_at?: string
+          health_score?: number
+          bounce_rate_30d?: number
+          complaint_rate_30d?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          domain_id?: string
+          email_address?: string
+          display_name?: string | null
+          provider?: MailboxProvider
+          status?: MailboxStatus
+          daily_send_limit?: number
+          sends_today?: number
+          sends_today_reset_at?: string
+          warm_up_started_at?: string
+          health_score?: number
+          bounce_rate_30d?: number
+          complaint_rate_30d?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      suppression_entries: {
+        Row: {
+          id: string
+          organization_id: string
+          email: string
+          reason: SuppressionReason
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          email: string
+          reason?: SuppressionReason
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          email?: string
+          reason?: SuppressionReason
+          notes?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -721,6 +855,10 @@ export type Database = {
       pipeline_job_status: PipelineJobStatus
       lead_qualification_status: LeadQualificationStatus
       email_draft_status: EmailDraftStatus
+      domain_verification_status: DomainVerificationStatus
+      mailbox_provider: MailboxProvider
+      mailbox_status: MailboxStatus
+      suppression_reason: SuppressionReason
     }
     CompositeTypes: {
       [_ in never]: never
@@ -751,3 +889,6 @@ export type EmailSequence = Tables<'email_sequences'>
 export type SequenceStep = Tables<'sequence_steps'>
 export type LeadScore = Tables<'lead_scores'>
 export type EmailDraft = Tables<'email_drafts'>
+export type OutreachDomain = Tables<'outreach_domains'>
+export type Mailbox = Tables<'mailboxes'>
+export type SuppressionEntry = Tables<'suppression_entries'>

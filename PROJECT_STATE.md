@@ -9,9 +9,38 @@
 
 ## Current Milestone
 
-**M3 — Qualification & Outreach Generation** ✅ **Complete** (staging verification pending)
+**M4 — Email Infrastructure** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M4 — Email Infrastructure (can run in parallel) or M5 — Campaigns & Replies (awaiting approval)
+**Next Milestone:** M5 — Campaigns & Replies
+
+---
+
+## M4 Phase Progress
+
+| Phase | Name                                                | Status      |
+| ----- | --------------------------------------------------- | ----------- |
+| 1     | Database Schema & RLS                               | ✅ Complete |
+| 2     | Types & `@atlas/deliverability` Package             | ✅ Complete |
+| 3     | DNS Validation, Warm-Up & Worker Jobs               | ✅ Complete |
+| 4     | Web UI (Domains, Mailboxes, Suppression, Dashboard) | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off                      | ✅ Complete |
+
+Full plan: [docs/milestones/m4-implementation-plan.md](./docs/milestones/m4-implementation-plan.md)
+
+---
+
+## M4 Deliverables (Verified)
+
+- [x] Supabase migration: `outreach_domains`, `mailboxes`, `suppression_entries`, RLS, audit
+- [x] `@atlas/deliverability` — DNS validation, warm-up ramp, health scoring, pre-send checks (ADR-0006)
+- [x] Worker job: `domain-dns-check`
+- [x] UI: `/deliverability`, `/deliverability/domains`, `/deliverability/mailboxes`, `/deliverability/suppression`
+- [x] Feature flag: `FF_EMAIL_SENDING=true` gates deliverability UI and actions
+- [x] Unit tests for DNS parsing, warm-up, health score, all 8 pre-send rules
+- [x] `pnpm validate` passes
+- [ ] Real DNS in production worker (mock resolver in tests)
+- [ ] Google Workspace OAuth for mailbox connect
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -96,20 +125,21 @@ Full plan: [docs/milestones/m3-implementation-plan.md](./docs/milestones/m3-impl
 
 ## Package Layout
 
-| Package                | Purpose                                                                |
-| ---------------------- | ---------------------------------------------------------------------- |
-| `@atlas/config`        | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
-| `@atlas/database`      | Supabase client factory + typed schema                                 |
-| `@atlas/discovery`     | CSV discovery, crawl, research pipeline orchestration                  |
-| `@atlas/qualification` | Lead scoring after research                                            |
-| `@atlas/outreach`      | Email generation, sequences, quality checks, draft management          |
-| `@atlas/events`        | Domain event catalog                                                   |
-| `@atlas/jobs`          | Job abstraction (Trigger.dev isolated in worker)                       |
-| `@atlas/providers`     | Pluggable provider interfaces                                          |
-| `@atlas/shared`        | Errors, constants, structured logger, RBAC helpers                     |
-| `@atlas/types`         | Zod schemas + shared types (auth, discovery, qualification, outreach)  |
-| `@atlas/ui`            | shadcn/ui components + design tokens                                   |
-| `@atlas/utils`         | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
+| Package                 | Purpose                                                                |
+| ----------------------- | ---------------------------------------------------------------------- |
+| `@atlas/config`         | Env validation, feature flags, ESLint/Prettier/Tailwind/Vitest presets |
+| `@atlas/database`       | Supabase client factory + typed schema                                 |
+| `@atlas/discovery`      | CSV discovery, crawl, research pipeline orchestration                  |
+| `@atlas/qualification`  | Lead scoring after research                                            |
+| `@atlas/deliverability` | DNS validation, warm-up, health scoring, pre-send checks               |
+| `@atlas/outreach`       | Email generation, sequences, quality checks, draft management          |
+| `@atlas/events`         | Domain event catalog                                                   |
+| `@atlas/jobs`           | Job abstraction (Trigger.dev isolated in worker)                       |
+| `@atlas/providers`      | Pluggable provider interfaces                                          |
+| `@atlas/shared`         | Errors, constants, structured logger, RBAC helpers                     |
+| `@atlas/types`          | Zod schemas + shared types (auth, discovery, qualification, outreach)  |
+| `@atlas/ui`             | shadcn/ui components + design tokens                                   |
+| `@atlas/utils`          | Pure utilities (`cn`, `safeJsonParse`, `assertNever`)                  |
 
 ---
 
@@ -123,9 +153,9 @@ pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
 ```
 
-Set `FF_DISCOVERY_PIPELINE=true` and `FF_OUTREACH_GENERATION=true` in `.env.local`.
+Set `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, and `FF_EMAIL_SENDING=true` in `.env.local`.
 
-Last validated: **2026-07-20** — all green.
+Last validated: **2026-07-20** — all green (M4).
 
 ---
 
@@ -156,9 +186,9 @@ Last validated: **2026-07-20** — all green.
 ## Next Step
 
 1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
-2. Enable `FF_DISCOVERY_PIPELINE=true` and `FF_OUTREACH_GENERATION=true`
-3. Import CSV → research completes → review scores at `/qualification` → approve drafts at `/outreach`
-4. Approve **M4 — Email Infrastructure** or **M5 — Campaigns & Replies** to begin
+2. Enable `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, and `FF_EMAIL_SENDING=true`
+3. Configure domains/mailboxes at `/deliverability` → approve outreach drafts at `/outreach`
+4. Begin **M5 — Campaigns & Replies** (campaign builder, send scheduler, reply detection)
 
 ---
 
