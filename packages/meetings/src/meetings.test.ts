@@ -47,10 +47,19 @@ describe('generateAvailableSlots', () => {
 })
 
 describe('buildBookingUrl', () => {
-  it('builds public booking path', () => {
+  it('builds internal booking path for legacy tokens', () => {
     expect(buildBookingUrl('http://localhost:3000', 'abc123')).toBe(
       'http://localhost:3000/book/abc123',
     )
+  })
+})
+
+describe('getBookingUrl', () => {
+  it('defaults to Calendly production URL', async () => {
+    const { getBookingUrl, DEFAULT_BOOKING_URL } = await import('./constants/booking-url')
+    delete process.env.NEXT_PUBLIC_BOOKING_URL
+    expect(getBookingUrl()).toBe(DEFAULT_BOOKING_URL)
+    expect(DEFAULT_BOOKING_URL).toBe('https://calendly.com/essa-qasim/30min')
   })
 })
 

@@ -20,6 +20,8 @@ const navItems = [
   { href: '/deliverability', label: 'Deliverability' },
   { href: '/campaigns', label: 'Campaigns' },
   { href: '/meetings', label: 'Meetings' },
+  { href: '/proposals', label: 'Proposals' },
+  { href: '/invoices', label: 'Invoices' },
   { href: '/settings', label: 'Settings' },
   { href: '/settings/outreach', label: 'Outreach settings' },
   { href: '/settings/meetings', label: 'Meeting settings' },

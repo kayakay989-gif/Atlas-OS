@@ -3,11 +3,11 @@
 import { isFeatureEnabled } from '@atlas/config'
 import {
   bookMeetingPublic,
-  buildBookingUrl,
   connectCalendar,
   createBookingLink,
   DEFAULT_WEEKLY_HOURS,
   generateMeetingBrief,
+  getBookingUrl,
   getOrCreateAvailabilitySettings,
   sendMeetingConfirmations,
   updateAvailabilitySettings,
@@ -40,10 +40,6 @@ function assertMeetingsEnabled(organizationId: string): void {
   if (!isFeatureEnabled('meetingBooking', { organizationId })) {
     throw new Error('Meeting booking is disabled. Set FF_MEETING_BOOKING=true to enable.')
   }
-}
-
-function getAppBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 }
 
 export async function connectCalendarAction(
@@ -146,16 +142,16 @@ export async function createBookingLinkAction(
   const supabase = await createClient()
 
   try {
-    const { token } = await createBookingLink(supabase, {
+    await createBookingLink(supabase, {
       ...parsed.data,
       organizationId: activeOrganization.id,
       createdBy: user.id,
     })
 
-    const bookingUrl = buildBookingUrl(getAppBaseUrl(), token)
+    const bookingUrl = getBookingUrl()
     revalidatePath('/settings/meetings')
     return {
-      success: 'Booking link created. Embed {{booking_link}} in outreach emails.',
+      success: 'Booking link ready. Embed {{booking_link}} in outreach emails.',
       bookingUrl,
     }
   } catch (error) {

@@ -1,5 +1,5 @@
 {
-  "name": "@atlas/outreach",
+  "name": "@atlas/conversion",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@atlas/database": "workspace:*",
-    "@atlas/meetings": "workspace:*",
-    "@atlas/qualification": "workspace:*",
     "@atlas/types": "workspace:*",
     "@supabase/supabase-js": "^2.49.1"
   },

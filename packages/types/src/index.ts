@@ -116,6 +116,22 @@ export {
   type WeeklyHours,
 } from './meetings'
 export {
+  createProposalSchema,
+  invoiceStatusSchema,
+  onboardingStatusSchema,
+  proposalGenerateJobPayloadSchema,
+  proposalStatusSchema,
+  reviewProposalSchema,
+  updateProposalSchema,
+  type CreateProposalInput,
+  type InvoiceStatus,
+  type OnboardingStatus,
+  type ProposalGenerateJobPayload,
+  type ProposalStatus,
+  type ReviewProposalInput,
+  type UpdateProposalInput,
+} from './conversion'
+export {
   createOrganizationSchema,
   inviteMemberSchema,
   inviteRoleSchema,

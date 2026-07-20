@@ -1,7 +1,7 @@
 # Project State — Atlas Sales OS
 
 **Last Updated:** 2026-07-20  
-**Updated By:** Lead Architect (M3 Complete — pending staging)
+**Updated By:** Lead Architect (M7 Complete — pending staging)
 
 > **Rule:** Read this file before starting any task. Update it after every milestone completion.
 
@@ -9,9 +9,38 @@
 
 ## Current Milestone
 
-**M6 — Meeting Booking** ✅ **Complete** (staging verification pending)
+**M7 — Proposals & Invoicing** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M7 — Proposals & Invoicing
+**Next Milestone:** M8 — Learning & Optimization
+
+---
+
+## M7 Phase Progress
+
+| Phase | Name                                     | Status      |
+| ----- | ---------------------------------------- | ----------- |
+| 1     | Database Schema & RLS                    | ✅ Complete |
+| 2     | Types & `@atlas/conversion` Package      | ✅ Complete |
+| 3     | Worker Jobs & Web Actions                | ✅ Complete |
+| 4     | Web UI (Proposals, Invoices, Onboarding) | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off           | ✅ Complete |
+
+Full plan: [docs/milestones/m7-implementation-plan.md](./docs/milestones/m7-implementation-plan.md)
+
+---
+
+## M7 Deliverables (Verified)
+
+- [x] Supabase migration: `proposals`, `invoices`, `onboarding_workflows`, RLS, audit
+- [x] `@atlas/conversion` — AI proposal generation (mock), review/approve, mock send, invoice generation, onboarding trigger
+- [x] Worker job: `proposal-generate`
+- [x] UI: `/proposals`, `/proposals/new`, `/proposals/[id]`, `/invoices`, `/invoices/[id]`
+- [x] Feature flag: `FF_CONVERSION_PIPELINE=true`
+- [x] Calendly booking URL: `https://calendly.com/essa-qasim/30min` via `NEXT_PUBLIC_BOOKING_URL`
+- [x] Unit tests for proposal generation, invoice numbers, conversion schemas
+- [x] `pnpm validate` passes
+- [ ] Real proposal/invoice email delivery
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -36,6 +65,7 @@ Full plan: [docs/milestones/m6-implementation-plan.md](./docs/milestones/m6-impl
 - [x] Worker job: `meeting-brief-generate`
 - [x] UI: `/meetings`, `/meetings/[id]`, `/settings/meetings`, public `/book/[token]`
 - [x] Feature flag: `FF_MEETING_BOOKING=true`
+- [x] Production booking URL: Calendly (`NEXT_PUBLIC_BOOKING_URL`, default `https://calendly.com/essa-qasim/30min`)
 - [x] Unit tests for slot generation, brief content, booking schemas
 - [x] `pnpm validate` passes
 - [ ] Real Google Calendar OAuth

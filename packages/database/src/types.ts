@@ -20,6 +20,9 @@ export type ReplyIntent =
 export type CalendarProvider = 'google_calendar'
 export type CalendarConnectionStatus = 'pending' | 'connected' | 'disconnected'
 export type MeetingStatus = 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+export type ProposalStatus = 'draft' | 'pending_review' | 'approved' | 'sent' | 'rejected'
+export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'cancelled'
+export type OnboardingStatus = 'pending' | 'in_progress' | 'completed'
 
 export type Database = {
   public: {
@@ -1254,6 +1257,159 @@ export type Database = {
         }
         Relationships: []
       }
+      proposals: {
+        Row: {
+          id: string
+          organization_id: string
+          company_id: string
+          contact_id: string | null
+          meeting_id: string | null
+          title: string
+          content: string
+          amount_cents: number
+          currency: string
+          status: ProposalStatus
+          reviewed_by: string | null
+          reviewed_at: string | null
+          approved_at: string | null
+          sent_at: string | null
+          prompt_version: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          company_id: string
+          contact_id?: string | null
+          meeting_id?: string | null
+          title: string
+          content: string
+          amount_cents?: number
+          currency?: string
+          status?: ProposalStatus
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          approved_at?: string | null
+          sent_at?: string | null
+          prompt_version?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          company_id?: string
+          contact_id?: string | null
+          meeting_id?: string | null
+          title?: string
+          content?: string
+          amount_cents?: number
+          currency?: string
+          status?: ProposalStatus
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          approved_at?: string | null
+          sent_at?: string | null
+          prompt_version?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      invoices: {
+        Row: {
+          id: string
+          organization_id: string
+          proposal_id: string
+          company_id: string
+          contact_id: string | null
+          invoice_number: string
+          amount_cents: number
+          currency: string
+          status: InvoiceStatus
+          due_date: string
+          sent_at: string | null
+          paid_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          proposal_id: string
+          company_id: string
+          contact_id?: string | null
+          invoice_number: string
+          amount_cents: number
+          currency?: string
+          status?: InvoiceStatus
+          due_date: string
+          sent_at?: string | null
+          paid_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          proposal_id?: string
+          company_id?: string
+          contact_id?: string | null
+          invoice_number?: string
+          amount_cents?: number
+          currency?: string
+          status?: InvoiceStatus
+          due_date?: string
+          sent_at?: string | null
+          paid_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      onboarding_workflows: {
+        Row: {
+          id: string
+          organization_id: string
+          company_id: string
+          contact_id: string | null
+          proposal_id: string
+          invoice_id: string | null
+          status: OnboardingStatus
+          triggered_at: string
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          company_id: string
+          contact_id?: string | null
+          proposal_id: string
+          invoice_id?: string | null
+          status?: OnboardingStatus
+          triggered_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          company_id?: string
+          contact_id?: string | null
+          proposal_id?: string
+          invoice_id?: string | null
+          status?: OnboardingStatus
+          triggered_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1322,6 +1478,9 @@ export type Database = {
       calendar_provider: CalendarProvider
       calendar_connection_status: CalendarConnectionStatus
       meeting_status: MeetingStatus
+      proposal_status: ProposalStatus
+      invoice_status: InvoiceStatus
+      onboarding_status: OnboardingStatus
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1365,3 +1524,6 @@ export type AvailabilitySettings = Tables<'availability_settings'>
 export type BookingLink = Tables<'booking_links'>
 export type Meeting = Tables<'meetings'>
 export type MeetingBrief = Tables<'meeting_briefs'>
+export type Proposal = Tables<'proposals'>
+export type Invoice = Tables<'invoices'>
+export type OnboardingWorkflow = Tables<'onboarding_workflows'>

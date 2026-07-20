@@ -72,6 +72,19 @@ export default async function MeetingDetailPage({ params }: MeetingDetailPagePro
           </pre>
         )}
       </section>
+
+      {meeting.company_id &&
+      isFeatureEnabled('conversionPipeline', { organizationId: activeOrganization.id }) ? (
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Next step</h2>
+          <Link
+            href={`/proposals/new?companyId=${meeting.company_id}&meetingId=${meeting.id}${meeting.contact_id ? `&contactId=${meeting.contact_id}` : ''}`}
+            className="text-primary text-sm font-medium hover:underline"
+          >
+            Generate proposal from this meeting →
+          </Link>
+        </section>
+      ) : null}
     </div>
   )
 }

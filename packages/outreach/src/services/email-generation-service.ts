@@ -8,6 +8,7 @@ export interface EmailGenerationInput {
   stepOrder: number
   subjectTemplate: string
   bodyTemplate: string
+  bookingLinkUrl?: string
 }
 
 const PROMPT_VERSION = 'v1'
@@ -23,6 +24,7 @@ export function generateEmailFromTemplate(input: EmailGenerationInput): Generate
     contact_name: contactName,
     pain_point: painPoint,
     research_insight: insight,
+    booking_link: input.bookingLinkUrl ?? '',
   }
 
   const subject = applyTokens(input.subjectTemplate, tokens)
@@ -30,6 +32,9 @@ export function generateEmailFromTemplate(input: EmailGenerationInput): Generate
 
   if (input.stepOrder === 1) {
     body += `\n\nI noticed ${insight}. Worth a quick conversation?`
+    if (input.bookingLinkUrl) {
+      body += `\n\nBook a time here: ${input.bookingLinkUrl}`
+    }
   } else if (input.stepOrder === 2) {
     body += `\n\nHappy to share a concise idea tailored to ${input.companyName}.`
   } else {

@@ -1,0 +1,4 @@
+{
+  "extends": "../../packages/config/tsconfig/node-library.json",
+  "include": ["src/**/*", "vitest.config.ts"]
+}

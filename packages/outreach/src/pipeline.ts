@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database, Json } from '@atlas/database/types'
 import type { EmailDraftStatus } from '@atlas/types'
+import { getBookingUrl } from '@atlas/meetings'
 import { getOrCreateOutreachSettings, runLeadQualification } from '@atlas/qualification'
 import { generateEmailFromTemplate, PROMPT_VERSION } from './services/email-generation-service'
 import { hasBlockingQualityIssues, runQualityCheck } from './services/quality-check-service'
@@ -71,6 +72,8 @@ export async function generateOutreachDrafts(
 
   let draftCount = 0
 
+  const bookingLinkUrl = getBookingUrl()
+
   for (const step of steps) {
     const generated = generateEmailFromTemplate({
       companyName: company.name,
@@ -80,6 +83,7 @@ export async function generateOutreachDrafts(
       stepOrder: step.step_order,
       subjectTemplate: step.subject_template,
       bodyTemplate: step.body_template,
+      bookingLinkUrl,
     })
 
     const qualityIssues = runQualityCheck({

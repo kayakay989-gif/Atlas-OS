@@ -10,6 +10,7 @@ export const FEATURE_FLAG_NAMES = {
   emailSending: 'emailSending',
   campaignExecution: 'campaignExecution',
   meetingBooking: 'meetingBooking',
+  conversionPipeline: 'conversionPipeline',
   crmModule: 'crmModule',
   aiAgents: 'aiAgents',
 } as const
@@ -25,6 +26,7 @@ export const FEATURE_FLAG_DEFAULTS: FeatureFlags = {
   emailSending: false,
   campaignExecution: false,
   meetingBooking: false,
+  conversionPipeline: false,
   crmModule: false,
   aiAgents: false,
 }
@@ -36,6 +38,7 @@ export const FEATURE_FLAG_ENV_KEYS: Record<FeatureFlagName, string> = {
   emailSending: 'FF_EMAIL_SENDING',
   campaignExecution: 'FF_CAMPAIGN_EXECUTION',
   meetingBooking: 'FF_MEETING_BOOKING',
+  conversionPipeline: 'FF_CONVERSION_PIPELINE',
   crmModule: 'FF_CRM_MODULE',
   aiAgents: 'FF_AI_AGENTS',
 }

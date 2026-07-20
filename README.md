@@ -8,7 +8,7 @@ Atlas Sales OS is not a CRM. It is an autonomous outbound sales platform designe
 
 ## Status
 
-**Milestone 6 complete** — calendar connect (mock), availability, booking links, public booking page, confirmations, and pre-meeting briefs. M7 (Proposals & Invoicing) is next.
+**Milestone 7 complete** — proposal generation, approval, mock send, invoicing, and client onboarding workflows. M8 (Learning & Optimization) is next.
 
 See [PROJECT_STATE.md](./PROJECT_STATE.md) and [docs/README.md](./docs/README.md).
 

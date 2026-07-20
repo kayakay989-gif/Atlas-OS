@@ -13,6 +13,8 @@ const protectedPrefixes = [
   '/deliverability',
   '/campaigns',
   '/meetings',
+  '/proposals',
+  '/invoices',
 ]
 const authRoutes = ['/login', '/signup']
 
