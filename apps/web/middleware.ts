@@ -12,6 +12,7 @@ const protectedPrefixes = [
   '/sequences',
   '/deliverability',
   '/campaigns',
+  '/meetings',
 ]
 const authRoutes = ['/login', '/signup']
 

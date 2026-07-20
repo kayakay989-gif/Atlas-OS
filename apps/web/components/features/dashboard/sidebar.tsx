@@ -19,8 +19,10 @@ const navItems = [
   { href: '/sequences', label: 'Sequences' },
   { href: '/deliverability', label: 'Deliverability' },
   { href: '/campaigns', label: 'Campaigns' },
+  { href: '/meetings', label: 'Meetings' },
   { href: '/settings', label: 'Settings' },
   { href: '/settings/outreach', label: 'Outreach settings' },
+  { href: '/settings/meetings', label: 'Meeting settings' },
   { href: '/settings/team', label: 'Team' },
 ]
 

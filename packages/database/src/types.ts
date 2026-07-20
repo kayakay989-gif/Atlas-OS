@@ -17,6 +17,9 @@ export type CampaignContactStatus =
 export type SendRecordStatus = 'queued' | 'sent' | 'failed' | 'skipped'
 export type ReplyIntent =
   'positive' | 'negative' | 'neutral' | 'out_of_office' | 'unsubscribe' | 'unknown'
+export type CalendarProvider = 'google_calendar'
+export type CalendarConnectionStatus = 'pending' | 'connected' | 'disconnected'
+export type MeetingStatus = 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
 
 export type Database = {
   public: {
@@ -1050,6 +1053,207 @@ export type Database = {
         }
         Relationships: []
       }
+      calendar_connections: {
+        Row: {
+          id: string
+          organization_id: string
+          user_id: string
+          provider: CalendarProvider
+          status: CalendarConnectionStatus
+          external_account_email: string | null
+          connected_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          user_id: string
+          provider?: CalendarProvider
+          status?: CalendarConnectionStatus
+          external_account_email?: string | null
+          connected_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          user_id?: string
+          provider?: CalendarProvider
+          status?: CalendarConnectionStatus
+          external_account_email?: string | null
+          connected_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      availability_settings: {
+        Row: {
+          organization_id: string
+          timezone: string
+          slot_duration_minutes: number
+          min_notice_hours: number
+          buffer_minutes: number
+          weekly_hours: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          organization_id: string
+          timezone?: string
+          slot_duration_minutes?: number
+          min_notice_hours?: number
+          buffer_minutes?: number
+          weekly_hours?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          organization_id?: string
+          timezone?: string
+          slot_duration_minutes?: number
+          min_notice_hours?: number
+          buffer_minutes?: number
+          weekly_hours?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      booking_links: {
+        Row: {
+          id: string
+          organization_id: string
+          token: string
+          contact_id: string | null
+          company_id: string | null
+          campaign_id: string | null
+          created_by: string | null
+          label: string | null
+          is_active: boolean
+          expires_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          token: string
+          contact_id?: string | null
+          company_id?: string | null
+          campaign_id?: string | null
+          created_by?: string | null
+          label?: string | null
+          is_active?: boolean
+          expires_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          token?: string
+          contact_id?: string | null
+          company_id?: string | null
+          campaign_id?: string | null
+          created_by?: string | null
+          label?: string | null
+          is_active?: boolean
+          expires_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      meetings: {
+        Row: {
+          id: string
+          organization_id: string
+          booking_link_id: string | null
+          contact_id: string | null
+          company_id: string | null
+          host_user_id: string | null
+          title: string
+          scheduled_start: string
+          scheduled_end: string
+          timezone: string
+          attendee_name: string
+          attendee_email: string
+          status: MeetingStatus
+          confirmation_sent_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          booking_link_id?: string | null
+          contact_id?: string | null
+          company_id?: string | null
+          host_user_id?: string | null
+          title: string
+          scheduled_start: string
+          scheduled_end: string
+          timezone?: string
+          attendee_name: string
+          attendee_email: string
+          status?: MeetingStatus
+          confirmation_sent_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          booking_link_id?: string | null
+          contact_id?: string | null
+          company_id?: string | null
+          host_user_id?: string | null
+          title?: string
+          scheduled_start?: string
+          scheduled_end?: string
+          timezone?: string
+          attendee_name?: string
+          attendee_email?: string
+          status?: MeetingStatus
+          confirmation_sent_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      meeting_briefs: {
+        Row: {
+          id: string
+          organization_id: string
+          meeting_id: string
+          content: string
+          sources: Json
+          prompt_version: string
+          generated_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          meeting_id: string
+          content: string
+          sources?: Json
+          prompt_version?: string
+          generated_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          meeting_id?: string
+          content?: string
+          sources?: Json
+          prompt_version?: string
+          generated_at?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1085,6 +1289,21 @@ export type Database = {
         }
         Returns: boolean
       }
+      get_booking_link_public: {
+        Args: {
+          link_token: string
+        }
+        Returns: Json
+      }
+      book_meeting_public: {
+        Args: {
+          link_token: string
+          attendee_name: string
+          attendee_email: string
+          scheduled_start: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       membership_role: MembershipRole
@@ -1100,6 +1319,9 @@ export type Database = {
       campaign_contact_status: CampaignContactStatus
       send_record_status: SendRecordStatus
       reply_intent: ReplyIntent
+      calendar_provider: CalendarProvider
+      calendar_connection_status: CalendarConnectionStatus
+      meeting_status: MeetingStatus
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1138,3 +1360,8 @@ export type CampaignMailbox = Tables<'campaign_mailboxes'>
 export type CampaignContact = Tables<'campaign_contacts'>
 export type SendRecord = Tables<'send_records'>
 export type InboundMessage = Tables<'inbound_messages'>
+export type CalendarConnection = Tables<'calendar_connections'>
+export type AvailabilitySettings = Tables<'availability_settings'>
+export type BookingLink = Tables<'booking_links'>
+export type Meeting = Tables<'meetings'>
+export type MeetingBrief = Tables<'meeting_briefs'>

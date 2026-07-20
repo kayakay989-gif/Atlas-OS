@@ -15,6 +15,7 @@
     "@atlas/config": "workspace:*",
     "@atlas/database": "workspace:*",
     "@atlas/campaigns": "workspace:*",
+    "@atlas/meetings": "workspace:*",
     "@atlas/deliverability": "workspace:*",
     "@atlas/discovery": "workspace:*",
     "@atlas/outreach": "workspace:*",

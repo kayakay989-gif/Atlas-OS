@@ -9,9 +9,37 @@
 
 ## Current Milestone
 
-**M5 — Campaigns & Replies** ✅ **Complete** (staging verification pending)
+**M6 — Meeting Booking** ✅ **Complete** (staging verification pending)
 
-**Next Milestone:** M6 — Meeting Booking
+**Next Milestone:** M7 — Proposals & Invoicing
+
+---
+
+## M6 Phase Progress
+
+| Phase | Name                                              | Status      |
+| ----- | ------------------------------------------------- | ----------- |
+| 1     | Database Schema & RLS                             | ✅ Complete |
+| 2     | Types & `@atlas/meetings` Package                 | ✅ Complete |
+| 3     | Public Booking RPC, Brief Generation & Worker Job | ✅ Complete |
+| 4     | Web UI (Settings, Dashboard, Public Booking Page) | ✅ Complete |
+| 5     | Tests, Feature Flag & Sign-Off                    | ✅ Complete |
+
+Full plan: [docs/milestones/m6-implementation-plan.md](./docs/milestones/m6-implementation-plan.md)
+
+---
+
+## M6 Deliverables (Verified)
+
+- [x] Supabase migration: `calendar_connections`, `availability_settings`, `booking_links`, `meetings`, `meeting_briefs`, public RPCs, RLS, audit
+- [x] `@atlas/meetings` — availability slots, booking links, public book flow, mock brief generation
+- [x] Worker job: `meeting-brief-generate`
+- [x] UI: `/meetings`, `/meetings/[id]`, `/settings/meetings`, public `/book/[token]`
+- [x] Feature flag: `FF_MEETING_BOOKING=true`
+- [x] Unit tests for slot generation, brief content, booking schemas
+- [x] `pnpm validate` passes
+- [ ] Real Google Calendar OAuth
+- [ ] Deployed to staging and manually verified
 
 ---
 
@@ -183,9 +211,9 @@ pnpm dev               # Start web app on :3000
 pnpm test:e2e          # Playwright (requires built web app)
 ```
 
-Set `FF_DISCOVERY_PIPELINE=true`, `FF_OUTREACH_GENERATION=true`, `FF_EMAIL_SENDING=true`, and `FF_CAMPAIGN_EXECUTION=true` in `.env.local`.
+Set `FF_MEETING_BOOKING=true` (plus prior pipeline flags as needed) in `.env.local`.
 
-Last validated: **2026-07-20** — all green (M5).
+Last validated: **2026-07-20** — all green (M6).
 
 ---
 
@@ -216,9 +244,9 @@ Last validated: **2026-07-20** — all green (M5).
 ## Next Step
 
 1. Run locally: `pnpm supabase:start && pnpm db:reset && pnpm dev`
-2. Enable all pipeline flags through `FF_CAMPAIGN_EXECUTION=true`
-3. Flow: discovery → qualification → approve drafts → configure deliverability → launch campaign at `/campaigns`
-4. Begin **M6 — Meeting Booking** when approved
+2. Enable `FF_MEETING_BOOKING=true` and configure `/settings/meetings`
+3. Create a booking link → share `/book/[token]` → view meeting + brief at `/meetings`
+4. Begin **M7 — Proposals & Invoicing** when approved
 
 ---
 

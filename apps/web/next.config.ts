@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
     '@atlas/config',
     '@atlas/deliverability',
     '@atlas/campaigns',
+    '@atlas/meetings',
     '@atlas/discovery',
     '@atlas/outreach',
     '@atlas/qualification',
